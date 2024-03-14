@@ -13,7 +13,10 @@
     <script src="./js/script.js"></script>
 </head>
 <body>
-    <div class="entrance-scene">
+    <div class="cursor-frame">
+        <div class="cursor"></div>
+    </div>
+    <!-- <div class="entrance-scene">
         <div class="entrance-curtine"></div>
         <div class="entrance-curtine"></div>
         <div class="entrance-curtine"></div>
@@ -31,12 +34,12 @@
                 C450.7,440,451.8,440.7,452.9,441.5z M141,441.5c87.4-57,112-174,55-261.4c-0.7-1.1-1.5-2.3-2.2-3.4c-87.4,57-112,174-55,261.4
                 C139.5,439.2,140.2,440.3,141,441.5z"/>
         </svg>
-    </div>
+    </div> -->
     <div class="navbar-frame">
         <div class="navbar-container">
-            <div class="abr-nav-logotype">STFD</div>
+            <div class="abr-nav-logotype cursor-hoverable">STFD</div>
             <div class="nav-options-container">
-                <div class="nav-option-container nav-link-option">
+                <div class="nav-option-container nav-link-option cursor-hoverable">
                     <div class="option-overflow-window">
                         <div class="nav-option-name-container">
                             <div class="nav-option-name">WHAT</div>
@@ -44,7 +47,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="nav-option-container nav-link-option">
+                <div class="nav-option-container nav-link-option cursor-hoverable">
                     <div class="option-overflow-window">
                         <div class="nav-option-name-container">
                             <div class="nav-option-name">HOW</div>
@@ -52,7 +55,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="nav-option-container nav-link-option">
+                <div class="nav-option-container nav-link-option cursor-hoverable">
                     <div class="option-overflow-window">
                         <div class="nav-option-name-container">
                             <div class="nav-option-name">WHO</div>
@@ -60,7 +63,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="nav-option-container nav-button-option nav-link-to-login">
+                <div class="nav-option-container nav-button-option nav-link-to-login cursor-hoverable">
                     <div class="option-overflow-window">
                         <div class="nav-option-name-container">
                             <div class="nav-option-name">START HELPING!</div>
@@ -102,7 +105,7 @@
                 C450.7,440,451.8,440.7,452.9,441.5z M141,441.5c87.4-57,112-174,55-261.4c-0.7-1.1-1.5-2.3-2.2-3.4c-87.4,57-112,174-55,261.4
                 C139.5,439.2,140.2,440.3,141,441.5z"/>
         </svg>
-        <div class="scroll-down-container">
+        <div class="scroll-down-container cursor-hoverable">
             <div class="scroll-down-circle scroll-down-outer-circle"></div>
             <div class="scroll-down-circle scroll-down-inner-circle">
                 <svg class="scroll-down-arrow" xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px" viewBox="20 7 60 80">
@@ -113,20 +116,45 @@
             </div>
         </div>
     </div>
-    <div class="rollbar">
-        <div class="rollbar-text">STREETFEED</div>
-        <svg class="rollbar-icon-separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-            <line x1="50" x2="50" y2="100"/>
-            <line y1="50" x2="100" y2="50"/>
-            <circle cx="50" cy="50" r="25"/>
-        </svg>
-        <div class="rollbar-text">START HELPING!</div>
-        <svg class="rollbar-icon-separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-            <line x1="50" x2="50" y2="100"/>
-            <line y1="50" x2="100" y2="50"/>
-            <circle cx="50" cy="50" r="25"/>
-        </svg>
-        <div class="rollbar-text">STREETFEED</div>
+    <div class="rollbar-container">
+        <div class="rollbar-item-container">
+            <div class="rollbar-text">STREETFEED</div>
+            <img class="rollbar-icon-separator" src="./media/separator-icon.svg">
+            <div class="rollbar-text">START HELPING!</div>
+            <img class="rollbar-icon-separator" src="./media/separator-icon.svg">
+            <div class="rollbar-text">STREETFEED</div>
+            <img class="rollbar-icon-separator" src="./media/separator-icon.svg">
+            <div class="rollbar-text">START HELPING!</div>
+            <img class="rollbar-icon-separator" src="./media/separator-icon.svg">
+        </div>
+        <div class="rollbar-item-container">
+            <div class="rollbar-text">STREETFEED</div>
+            <img class="rollbar-icon-separator" src="./media/separator-icon.svg">
+            <div class="rollbar-text">START HELPING!</div>
+            <img class="rollbar-icon-separator" src="./media/separator-icon.svg">
+            <div class="rollbar-text">STREETFEED</div>
+            <img class="rollbar-icon-separator" src="./media/separator-icon.svg">
+            <div class="rollbar-text">START HELPING!</div>
+            <img class="rollbar-icon-separator" src="./media/separator-icon.svg">
+        </div>
+        <div class="rollbar-item-container">
+            <div class="rollbar-text">STREETFEED</div>
+            <img class="rollbar-icon-separator" src="./media/separator-icon.svg">
+            <div class="rollbar-text">START HELPING!</div>
+            <img class="rollbar-icon-separator" src="./media/separator-icon.svg">
+            <div class="rollbar-text">STREETFEED</div>
+            <img class="rollbar-icon-separator" src="./media/separator-icon.svg">
+            <div class="rollbar-text">START HELPING!</div>
+            <img class="rollbar-icon-separator" src="./media/separator-icon.svg">
+        </div>
+    </div>
+    <div class="separator-container separator-number-rigth">
+        <div class="seprator-text separation-name">WHAT</div>
+        <div class="separator-line simple-line"></div>
+        <div class="separation-number-container">
+            <div class="seprator-text separation-number">01</div>
+            <div class="separation-number-gradient"></div>
+        </div>
     </div>
 </body>
 </html>
