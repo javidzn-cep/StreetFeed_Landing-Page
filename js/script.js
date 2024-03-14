@@ -8,8 +8,8 @@ const
 document.addEventListener('DOMContentLoaded',   () => {
     setEntranceAnimation();
     document.querySelector('.entrance-isotype').addEventListener('transitionend', setEntranceAnimation);
-    document.querySelector('.entrance-curtine').addEventListener('transitionend', entranceEnded);
-
+    document.querySelector('.entrance-curtine').addEventListener('transitionend', landingPageIn);
+    document.querySelector('.nav-toggler-btn').addEventListener('click', toggleMovileNavContainer)
 });
 
 function setEntranceAnimation(){
@@ -20,6 +20,12 @@ function setEntranceAnimation(){
     }
 }
 
-function entranceEnded(){
+function landingPageIn(){
     document.querySelector('.entrance-scene').remove();
+}
+
+function toggleMovileNavContainer(){
+    const navBarFrame = document.querySelector('.navbar-frame');
+    const containerIsShown = navBarFrame.classList.contains('movile-nav-shown');
+    navBarFrame.classList.toggle('movile-nav-shown');
 }
