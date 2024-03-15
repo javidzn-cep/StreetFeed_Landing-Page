@@ -78,7 +78,7 @@ body{
 /*   ______________________   ENTRANCE ANIMATION   ______________________   */
 
 .entrance-scene{
-    position: sticky;
+    position: fixed;
     top: 0;
     left: 0;
     display: flex;
@@ -354,7 +354,7 @@ body{
 
 .scroll-down-container{
     position: absolute;
-    bottom: 10%;
+    bottom: 20%;
     left: 50%;
     transform: translateY(-50%);
 }
@@ -393,7 +393,10 @@ body{
 
 .rollbar-container{
     display: -webkit-box;
-    width: 100vw;
+    width: 90vw;
+    border-inline: 1px solid black;
+    padding-block: 10px;
+    margin-inline: 5vw;
     overflow: hidden;
 }
 
@@ -486,6 +489,35 @@ body{
     height: 100%;
     width: 100%;
     background: linear-gradient(0deg, rgb(255, 255, 255) 45%, rgba(110, 109, 109, 0) 55%)
+}
+
+.scrollbar-container{
+    position: fixed;
+    top: 50%;
+    left: 50px;
+    height: 100px;
+    transform: translateY(-50%);
+}
+
+.scrollbar-rail{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1px;
+    height: 100%;
+    border-right: 1px solid black;
+    transform: translate(-50%, -50%);
+}
+
+.scrollbar-thumb{
+    position: absolute;
+    top: 0 ;
+    left: 0;
+    width: 10px;
+    background-color: black;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    transform: translate(-50%, -50%);
 }
 
 
