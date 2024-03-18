@@ -11,9 +11,9 @@ let
         
 document.addEventListener('DOMContentLoaded',   () => {
     initVariables();
-    // setEntranceAnimation();
-    // document.querySelector('.entrance-isotype').addEventListener('transitionend', setEntranceAnimation);
-    // document.querySelector('.entrance-curtine').addEventListener('transitionend', landingPageIn);
+    setEntranceAnimation();
+    document.querySelector('.entrance-isotype').addEventListener('transitionend', setEntranceAnimation);
+    document.querySelector('.entrance-curtine').addEventListener('transitionend', landingPageIn);
     Array.from(document.querySelectorAll('.cursor-hoverable')).forEach(element => [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => element.addEventListener(obj.event, () => document.querySelector('.cursor').classList.toggle('cursor-hover', obj.isHovering))));
     document.querySelector('.nav-toggler-btn').addEventListener('click', toggleMovileNavContainer);
     document.addEventListener('mousemove', e => updateMouseMove(e));

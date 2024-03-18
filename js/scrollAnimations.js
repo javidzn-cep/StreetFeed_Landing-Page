@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     navBarAnimation();
     callToActionAnimation();
     footerParalaxEffect();
+    showDataNumbersAnimationActivator();
 });
 
 function lineMaskAnimation(){
@@ -81,7 +82,7 @@ function navBarAnimation(){
         scrollTrigger: {
             trigger: '.role-explainer-frame',
             start: 'top top', 
-            end: 'bottom 75px',
+            end: 'bottom 90%',
             toggleClass: {targets: '.navbar-frame', className: 'nav-transparent-mode'},
         },
     });
@@ -155,4 +156,40 @@ function footerParalaxEffect(){
         },
         transform: 'translateY(0%)'
     })
+}
+
+function showDataNumbersAnimationActivator() {
+    const numbers = document.querySelectorAll('.data-number');
+    numbers.forEach(element => {
+        gsap.to(`#${element.id}`, {
+            scrollTrigger: {
+                trigger: `#${element.id}`,
+                toggleActions: 'play none none none',
+                start: '50% bottom',
+                end: '50% bottom',
+                once: true
+            },
+            onUpdate: showDataNumbersAnimation
+        })
+    })
+}
+
+function showDataNumbersAnimation() {
+    const numbers = document.querySelectorAll('.data-number');
+    const changes = 750;
+    numbers.forEach(number => {
+        let currentNumberFloat = parseFloat(number.dataset.currentNumberFloat);
+        let objectiveNumber = parseFloat(number.dataset.objectiveNumber);
+        let difference = objectiveNumber - currentNumberFloat;
+        let step = difference / changes;
+
+        if (Math.abs(difference) < 1) {
+            number.textContent = objectiveNumber;
+        } else {
+            currentNumberFloat += step;
+            number.dataset.currentNumberFloat = currentNumberFloat;
+            number.textContent = currentNumberFloat.toFixed(0);
+        }
+    });
+    requestAnimationFrame(showDataNumbersAnimation);
 }

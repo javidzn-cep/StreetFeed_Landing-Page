@@ -585,7 +585,7 @@ body{
     display: flex;
     justify-content: center;
     width: 100vw;
-    height: 700vh;
+    height: 500vh;
     margin-top: 300px;
     z-index: 2;
 }
@@ -667,7 +667,7 @@ body{
     align-items: center;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    margin-block: 200px;
+    margin-block: 400px 100px;
     padding-inline: 50px;
 }
 
