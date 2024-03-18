@@ -11,20 +11,19 @@ let
         
 document.addEventListener('DOMContentLoaded',   () => {
     initVariables();
-    // setEntranceAnimation();
-    // document.querySelector('.entrance-isotype').addEventListener('transitionend', setEntranceAnimation);
-    // document.querySelector('.entrance-curtine').addEventListener('transitionend', landingPageIn);
+    setEntranceAnimation();
+    document.querySelector('.entrance-isotype').addEventListener('transitionend', setEntranceAnimation);
+    document.querySelector('.entrance-curtine').addEventListener('transitionend', landingPageIn);
     Array.from(document.querySelectorAll('.cursor-hoverable')).forEach(element => [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => element.addEventListener(obj.event, () => document.querySelector('.cursor').classList.toggle('cursor-hover', obj.isHovering))));
     document.querySelector('.nav-toggler-btn').addEventListener('click', toggleMovileNavContainer);
     document.addEventListener('mousemove', e => updateMouseMove(e));
     document.addEventListener('wheel', e => updateScrollTarget({event : e}), {passive: false});
-    document.addEventListener('scroll', e => e.preventDefault(), {passive: false});
+    document.addEventListener('scroll', e => window.innerWidth > 1200 && e.preventDefault(), {passive: false});
     document.querySelector('.abr-nav-logotype').addEventListener('click', () => updateScrollTarget({target: 0}))
     document.querySelector('.nav-what').addEventListener('click', () => updateScrollTarget({target: document.querySelector('.separator-what').offsetTop}))
     document.querySelector('.nav-how').addEventListener('click', () => updateScrollTarget({target: document.querySelector('.separator-how').offsetTop}))
     document.querySelector('.nav-who').addEventListener('click', () => updateScrollTarget({target: document.querySelector('.separator-who').offsetTop}))
-    document.querySelector('.scroll-down-container').addEventListener('click', () => updateScrollTarget({target: document.querySelector('.separator-what').offsetTop}))
-
+    document.querySelector('.scroll-down-container').addEventListener('click', () => updateScrollTarget({target: document.querySelector('.separator-what').offsetTop}));
 });
 
 function initVariables(){
@@ -60,6 +59,7 @@ function toggleMovileNavContainer(){
 function updateScrollTarget({event = null, target = null}){
     event?.preventDefault();
     targetScrollY = Math.max(0, Math.min(target ?? targetScrollY + event.deltaY, document.body.offsetHeight - window.innerHeight));
+    
 }
 
 function moveCursor(){
@@ -70,7 +70,7 @@ function moveCursor(){
 }
 
 function moveRollBar(){
-    const speed = 0.15;
+    const speed = 0.1;
     rollBarTransaltePerc = (rollBarTransaltePerc - speed) % 100
     Array.from(document.querySelectorAll('.rollbar-item-container')).map(rollbarItem => rollbarItem.style.transform = `translateX(${rollBarTransaltePerc}%)`)
     requestAnimationFrame(moveRollBar)
@@ -88,8 +88,10 @@ function moveScrollDownIcon(){
 }
 
 function updateScroll() {
-    currentScrollY = lowPassFilter(targetScrollY, currentScrollY, 0.07);
-    window.scrollTo(0, currentScrollY);
-    document.querySelector('.scrollbar-thumb').style.top = `${(currentScrollY / (document.body.offsetHeight - window.innerHeight)) * 100}%`
+    if (window.innerWidth > 1200){
+        currentScrollY = lowPassFilter(targetScrollY, currentScrollY, 0.05);
+        window.scrollTo(0, currentScrollY);
+        document.querySelector('.scrollbar-thumb').style.top = `${(currentScrollY / (document.body.offsetHeight - window.innerHeight)) * 100}%`
+    }
     requestAnimationFrame(updateScroll);
 }
