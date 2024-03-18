@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     lineMaskAnimation();
     roleExplainerAnimation();
+    faqImageParallaxEffect();
     navBarAnimation();
     callToActionAnimation();
     footerParalaxEffect();
@@ -100,6 +101,20 @@ function navBarAnimation(){
             toggleClass: {targets: '.navbar-frame', className: 'nav-dark-mode'},
         },
     });
+}
+
+function faqImageParallaxEffect(){
+    const img = document.querySelector('.faq-img');
+    const frame = document.querySelector('.faq-frame');
+        gsap.to('.faq-img', {
+            scrollTrigger: {
+                trigger: '.faq-frame',
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true,
+            },
+            transform: `translateY(${img.offsetHeight - frame.offsetHeight}px)`
+        })
 }
 
 
