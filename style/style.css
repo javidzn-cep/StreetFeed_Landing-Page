@@ -390,6 +390,7 @@ body{
     bottom: 20%;
     left: 50%;
     transform: translateY(-50%);
+    z-index: 10;
 }
 
 .scroll-down-outer-circle{    
@@ -417,6 +418,42 @@ body{
     transform: rotate(180deg);
     fill: var(--website-color);
     height: 50%;
+}
+
+.masked-container{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    mask-image: url(/media/mask-image.svg);
+    mask-repeat: no-repeat;
+    mask-size: 0px;
+    background: #000000 !important;
+    z-index: 5;
+    color: white;
+    height: 100vh;
+    width: 100vw;
+    transform: translate(-50%, 50%);
+}
+
+.mask-hovering{
+    mask-size: 330px;
+}
+
+.masked-subtitle{
+    top: 50%;
+    left: 50%;
+    height: min-content;
+    transform: translateY(-100%);
+}
+
+.mask-activator{
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    transform: translateY(-100%) scale(2);
 }
 
 
@@ -614,12 +651,12 @@ body{
 
 .role-description-text{
     position: absolute;
-    top: 20%;
-    right: 10%;
+    top: 15%;
+    right: 9%;
     color: gray;
     font-family: var(--font-secondary);
     font-size: 17px;
-    width: 300px;
+    width: 400px;
     text-align: center;
 }
 
@@ -702,17 +739,17 @@ body{
     display: flex;
     align-items: center;
     width: 100vw;
-    height: 100vh;
+    height: 105vh;
     background-color: var(--website-color);
+    overflow: hidden;
 }
 
 .faq-img-container{
     position: relative;
     display: flex;
     align-items: end;
-    width: 45%;
-    max-height: 100%;
-    overflow: hidden;
+    width: 45vw;
+    height: 100%;
 }
 
 .faq-img{
@@ -722,6 +759,236 @@ body{
     filter: saturate(0) contrast(1.1);
     transform: translateY(0px);
 }
+
+.faq-content-container{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55vw;
+    height: 100%;
+    color: white;
+    overflow: hidden;
+}
+
+.faq-options-container{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    top: 10%;
+    left: 50%;
+    gap: 50px;
+    width: auto;
+    height: auto;
+    transform: translateX(-50%);
+}
+
+
+.faq-option-chatbot-container{
+    position: relative;
+}
+
+.faq-option-chatbot-container, .faq-option-faq-container{
+    text-align: center;
+}
+
+.faq-option-faq, .faq-option-chatbot-container{
+    font-size: 30px;
+    width: 325px;
+    text-align: center;
+    padding: 10px;
+}
+
+.faq-option-chatbot{
+    width: 100%;
+    line-height: 27px;
+}
+
+.faq-ai-logo{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    transform: translate(50%, -50%);
+}
+
+.faq-option-selector{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 325px;
+    border-color: white;
+    transition: 0.7s;
+
+}
+
+.chatbot-active .faq-option-selector{
+    left: 100%;
+    transform: translateX(-100%);
+}
+
+.faq-question{
+    font-family: var(--font-secondary);
+    font-size: 19px;
+}
+
+.faq-questions-frame{
+    position: absolute;
+    top: 25vh;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    width: 100%;
+    padding-inline: 12%;
+    transition: 0.5s;
+}
+
+.chatbot-active .faq-questions-frame{
+    transform: translateX(-100%);
+}
+
+.chatbot-active .faq-chatbot-frame{
+    transform: translateX(-100%);
+}
+
+.faq-question-aswer-container{
+    font-size: 20px;
+}
+
+.faq-question-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 20px;
+    border-bottom: 1px solid white;
+    gap: 50px;
+}
+
+.faq-number-question-container {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+}
+
+.faq-number{
+    font-family: var(--font-contrast);
+    font-size: 50px;
+    width: 80px;
+}
+
+.faq-caret{
+    width: 20px;
+    transition: 0.5s;
+    transform-origin: center;
+}
+
+.faq-answer-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 0;
+    overflow: hidden;
+    transition: 0.5s;
+}
+
+.question-shown .faq-answer-container{
+    height: 200px;
+}
+
+.faq-answer{
+    font-family: 'Onest';
+    font-size: 15px;
+    width: 80%;
+}
+
+.question-shown .faq-caret{
+    transform: rotate(-60deg);
+}
+
+.faq-chatbot-frame{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    transform: translateX(100%);
+    position: absolute;
+    top: 25vh;
+    height: 60vh;
+    color: white;
+    width: 100%;
+    padding-inline: 12%;
+    overflow: hidden;
+    transition: 0.5s;
+    gap: 100px;
+}
+
+.chatbot-active .faq-chatbot-frame{
+    transform: translate(0);
+}
+
+.faq-chatbot-messages-frame{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.faq-message{
+    position: relative;
+    display: inline;
+    max-width: 60%;
+    margin: 30px 10px;
+}
+
+.user-message{
+    align-self: end;
+    text-align: end;
+}
+
+.message-waiting-response .chatbot-waiting-indicator::after{
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    width: 12px;
+    height: 12px;
+    margin-left: 10px;
+    border-radius: 50%;
+    background-color: white;
+    animation: chatbotWaiting 1s infinite;
+}
+
+.faq-user-input{
+    display: flex;
+    width: 100%;
+    
+}
+
+.chatbot-text-input{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid white;
+    padding: 5px 15px;
+    width: 100%;
+    font-size: 18px;
+    color: white;
+}
+
+.chatbot-send-message{
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 5px 15px;
+    font-size: 18px;
+}
+
 
 
 
@@ -914,4 +1181,10 @@ body{
     .nav-options-container { display: flex; gap: 35px; }
     .nav-toggler-btn{ display: none; }
 
+}
+
+@keyframes chatbotWaiting {
+    0% {scale: 0.9}
+    50% {scale: 1.2}
+    100% {scale: 0.9;}
 }

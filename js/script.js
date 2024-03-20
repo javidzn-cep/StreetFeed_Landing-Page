@@ -7,14 +7,16 @@ const
     updateMouseMove = e => [cursorX, cursorY] = [e.clientX, e.clientY];
 
 let 
-    cursorX, cursorY, rollBarTransaltePerc, currentScrollY, targetScrollY;
+    cursorX, cursorY, rollBarTransaltePerc, currentScrollY, targetScrollY, currentMaskSize, maskSizeIsHovering
         
 document.addEventListener('DOMContentLoaded',   () => {
     initVariables();
-    setEntranceAnimation();
-    document.querySelector('.entrance-isotype').addEventListener('transitionend', setEntranceAnimation);
-    document.querySelector('.entrance-curtine').addEventListener('transitionend', landingPageIn);
+    // setEntranceAnimation();
+    // document.querySelector('.entrance-isotype').addEventListener('transitionend', setEntranceAnimation);
+    // document.querySelector('.entrance-curtine').addEventListener('transitionend', landingPageIn);
     Array.from(document.querySelectorAll('.cursor-hoverable')).forEach(element => [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => element.addEventListener(obj.event, () => document.querySelector('.cursor').classList.toggle('cursor-hover', obj.isHovering))));
+    Array.from(document.querySelectorAll('.mask-activator')).forEach(element => [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => element.addEventListener(obj.event, () => maskSizeIsHovering = obj.isHovering)));
+    Array.from(document.querySelectorAll('.faq-question-aswer-container')).forEach(question => question.addEventListener('click', e => openFaqQuestion(e)))
     document.querySelector('.nav-toggler-btn').addEventListener('click', toggleMovileNavContainer);
     document.addEventListener('mousemove', e => updateMouseMove(e));
     document.addEventListener('wheel', e => updateScrollTarget({event : e}), {passive: false});
@@ -24,14 +26,23 @@ document.addEventListener('DOMContentLoaded',   () => {
     document.querySelector('.nav-how').addEventListener('click', () => updateScrollTarget({target: document.querySelector('.separator-how').offsetTop}))
     document.querySelector('.nav-who').addEventListener('click', () => updateScrollTarget({target: document.querySelector('.separator-who').offsetTop}))
     document.querySelector('.scroll-down-container').addEventListener('click', () => updateScrollTarget({target: document.querySelector('.separator-what').offsetTop}));
+    document.querySelector('.chatbot-text-input').addEventListener('keydown', () => sendMessageController(e))
+    document.querySelector('.faq-option-chatbot-container').addEventListener('click', () => {
+        document.querySelector('.faq-content-container').classList.add('chatbot-active');
+        document.querySelector('.question-shown')?.classList.remove('question-shown')
+    })
+    document.querySelector('.faq-option-faq').addEventListener('click', () => document.querySelector('.faq-content-container').classList.remove('chatbot-active'))
 });
 
 function initVariables(){
     cursorX = cursorY = rollBarTransaltePerc = currentScrollY = targetScrollY = 0;
+    currentMaskSize = Number(window.getComputedStyle(document.querySelector('.masked-container')).getPropertyValue('mask-size').replace(/\D/g, ''));
+    maskSizeIsHovering = false
     moveCursor();
     moveRollBar();
     moveScrollDownIcon();
     updateScroll();
+    resizeMaskSize()
 }
 
 function setEntranceAnimation(){
@@ -64,8 +75,12 @@ function updateScrollTarget({event = null, target = null}){
 
 function moveCursor(){
     const cursor = document.querySelector('.cursor');
-    cursor.style.top = `${lowPassFilter(cursorY, cursor.offsetTop, 0.5)}px`
-    cursor.style.left = `${lowPassFilter(cursorX, cursor.offsetLeft, 0.5)}px`
+    const maskedContainer = document.querySelector('.masked-container')
+    const newCursorX = lowPassFilter(cursorX, cursor.offsetLeft, 0.5)
+    const newCursorY = lowPassFilter(cursorY, cursor.offsetTop, 0.5)
+    cursor.style.top = `${newCursorY}px`
+    cursor.style.left = `${newCursorX}px`
+    maskedContainer.style.maskPosition = `${newCursorX - maskedContainer.getBoundingClientRect().left - (currentMaskSize / 2)}px ${newCursorY - maskedContainer.getBoundingClientRect().top - (currentMaskSize / 2)}px`;
     requestAnimationFrame(moveCursor)
 }
 
@@ -94,4 +109,54 @@ function updateScroll() {
         document.querySelector('.scrollbar-thumb').style.top = `${(currentScrollY / (document.body.offsetHeight - window.innerHeight)) * 100}%`
     }
     requestAnimationFrame(updateScroll);
+}
+
+function openFaqQuestion(e){
+    const currentCuestion = document.querySelector('.question-shown');
+    currentCuestion != e.currentTarget && currentCuestion?.classList.remove('question-shown')
+    e.currentTarget.classList.toggle('question-shown');
+}
+
+function resizeMaskSize(){
+    const maskedContainer = document.querySelector('.masked-container')
+    const grownSize = 250;
+    const normalSize = 0;
+    currentMaskSize = lowPassFilter(maskSizeIsHovering ? grownSize : normalSize, currentMaskSize, 0.2);
+    document.querySelector('.cursor').style.opacity = maskSizeIsHovering ? 0: 1;
+    maskedContainer.style.maskSize = `${currentMaskSize}px`;
+    requestAnimationFrame(resizeMaskSize)
+}
+
+
+function sendChatBotMessage(){
+    const frame = document.querySelector('.faq-chatbot-messages-frame');
+    const input = document.querySelector('.faq-user-input');
+    frame.appendChild(createUserMessage(input.value));
+    frame.appendChild(createChatbotMessage())
+}
+
+function createUserMessage(userMessage){
+    const message = document.createElement('div');
+    message.classList.add('faq-message', 'user-message')
+    message.textContent = userMessage
+    return message
+}
+
+function createChatbotMessage(){
+    const message = document.createElement('div');
+    const waitingIndicator = document.createElement('span');
+    message.classList.add('faq-message', 'chatbot-message', 'message-waiting-response');
+    waitingIndicator.classList.add('chatbot-waiting-indicator');
+    message.appendChild(waitingIndicator)
+    return message
+}
+
+function sendMessageController(e) {
+    const input = document.querySelector('.chatbot-text-input');
+    const button = document.querySelector('.chatbot-send-message')
+    if (e.type == 'keydown'){
+
+    } else if (e.type == 'click') {
+
+    }
 }

@@ -50,10 +50,10 @@ function roleExplainerAnimation(){
         width: '100vw'
     });
     highlightTexts.forEach((element, i) => {
-        const entraceStart = 5 + i * (90 / highlightTexts.length);
+        const entraceStart = i * (90 / (highlightTexts.length + 1));
         const entranceLeave = entraceStart + 10;
-        const leaveStart = 5 + (i+1) * (90 / highlightTexts.length);
-        const leaveLeave = 5 + (i+1) * (90 / highlightTexts.length) + 10;
+        const leaveStart = (i+1) * (90 / (highlightTexts.length + 1));
+        const leaveLeave = (i+1) * (90 / (highlightTexts.length + 1)) + 10;
         gsap.to(`#${element.id}`, {
             scrollTrigger: {
                 trigger: '.role-explainer-frame',
@@ -176,7 +176,7 @@ function showDataNumbersAnimationActivator() {
 
 function showDataNumbersAnimation() {
     const numbers = document.querySelectorAll('.data-number');
-    const changes = 750;
+    const changes = 1500;
     numbers.forEach(number => {
         let currentNumberFloat = parseFloat(number.dataset.currentNumberFloat);
         let objectiveNumber = parseFloat(number.dataset.objectiveNumber);
