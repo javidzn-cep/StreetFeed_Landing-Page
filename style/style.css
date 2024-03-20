@@ -946,6 +946,7 @@ body{
 .user-message{
     align-self: end;
     text-align: end;
+    color: rgb(197, 197, 197);
 }
 
 .message-waiting-response .chatbot-waiting-indicator::after{

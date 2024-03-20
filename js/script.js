@@ -11,9 +11,9 @@ let
         
 document.addEventListener('DOMContentLoaded',   () => {
     initVariables();
-    // setEntranceAnimation();
-    // document.querySelector('.entrance-isotype').addEventListener('transitionend', setEntranceAnimation);
-    // document.querySelector('.entrance-curtine').addEventListener('transitionend', landingPageIn);
+    setEntranceAnimation();
+    document.querySelector('.entrance-isotype').addEventListener('transitionend', setEntranceAnimation);
+    document.querySelector('.entrance-curtine').addEventListener('transitionend', landingPageIn);
     Array.from(document.querySelectorAll('.cursor-hoverable')).forEach(element => [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => element.addEventListener(obj.event, () => document.querySelector('.cursor').classList.toggle('cursor-hover', obj.isHovering))));
     Array.from(document.querySelectorAll('.mask-activator')).forEach(element => [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => element.addEventListener(obj.event, () => maskSizeIsHovering = obj.isHovering)));
     Array.from(document.querySelectorAll('.faq-question-aswer-container')).forEach(question => question.addEventListener('click', e => openFaqQuestion(e)))
@@ -26,10 +26,11 @@ document.addEventListener('DOMContentLoaded',   () => {
     document.querySelector('.nav-how').addEventListener('click', () => updateScrollTarget({target: document.querySelector('.separator-how').offsetTop}))
     document.querySelector('.nav-who').addEventListener('click', () => updateScrollTarget({target: document.querySelector('.separator-who').offsetTop}))
     document.querySelector('.scroll-down-container').addEventListener('click', () => updateScrollTarget({target: document.querySelector('.separator-what').offsetTop}));
-    document.querySelector('.chatbot-text-input').addEventListener('keydown', () => sendMessageController(e))
+    document.querySelector('.chatbot-text-input').addEventListener('keydown', e => sendMessageController(e))
+    document.querySelector('.chatbot-send-message').addEventListener('click', e => sendMessageController(e))
     document.querySelector('.faq-option-chatbot-container').addEventListener('click', () => {
         document.querySelector('.faq-content-container').classList.add('chatbot-active');
-        document.querySelector('.question-shown')?.classList.remove('question-shown')
+        document.querySelector('.question-shown')?.classList.remove('question-shown');
     })
     document.querySelector('.faq-option-faq').addEventListener('click', () => document.querySelector('.faq-content-container').classList.remove('chatbot-active'))
 });
@@ -127,12 +128,37 @@ function resizeMaskSize(){
     requestAnimationFrame(resizeMaskSize)
 }
 
-
 function sendChatBotMessage(){
     const frame = document.querySelector('.faq-chatbot-messages-frame');
-    const input = document.querySelector('.faq-user-input');
+    const input = document.querySelector('.chatbot-text-input');
+
+    falsoFetch(input.value)
+    .then(response => {
+        chatbotWritingAnimation(response);
+    })
+    .catch(error => console.warn(error))
+
     frame.appendChild(createUserMessage(input.value));
     frame.appendChild(createChatbotMessage())
+    input.value='';
+}
+
+function chatbotWritingAnimation(chatbotText) {
+    const container = document.querySelector('.message-waiting-response');
+    const tetxSpan = container.querySelector('.faq-chatbot-text');
+    let i = 0;
+
+    function addCharacter() {
+        if (i < chatbotText.length) {
+            tetxSpan.textContent += chatbotText.charAt(i++);
+            setTimeout(addCharacter, Math.round(Math.random()* 20 ));
+        } else {
+            container.querySelector('.chatbot-waiting-indicator').remove();
+            container.classList.remove('message-waiting-response');
+        }
+    }
+
+    addCharacter();
 }
 
 function createUserMessage(userMessage){
@@ -144,19 +170,37 @@ function createUserMessage(userMessage){
 
 function createChatbotMessage(){
     const message = document.createElement('div');
+    const chatbotText = document.createElement('span');
     const waitingIndicator = document.createElement('span');
     message.classList.add('faq-message', 'chatbot-message', 'message-waiting-response');
+    chatbotText.classList.add('faq-chatbot-text');
     waitingIndicator.classList.add('chatbot-waiting-indicator');
+    message.appendChild(chatbotText);
     message.appendChild(waitingIndicator)
     return message
 }
 
 function sendMessageController(e) {
     const input = document.querySelector('.chatbot-text-input');
-    const button = document.querySelector('.chatbot-send-message')
-    if (e.type == 'keydown'){
-
-    } else if (e.type == 'click') {
+    const button = document.querySelector('.chatbot-send-message');
+    if (input.value !== ''){
+        if (e.type == 'keydown'){
+            if (e.key == 'Enter' && !e.shiftKey ) {
+                sendChatBotMessage();
+            }
+        } else if (e.type == 'click') {
+            sendChatBotMessage();
+        }
+    } else {
 
     }
+}
+
+
+function falsoFetch() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, doloremque iste ipsam distinctio vitae sint accusantium possimus dolore ipsa voluptates magnam minima aliquid atque quod, quia inventore repellendus saepe minus!");
+        }, 2000);
+    });
 }
