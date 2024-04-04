@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     lineMaskAnimation();
     roleExplainerAnimation();
-    faqImageParallaxEffect();
+    setTimeout(faqImageParallaxEffect, 0);
     navBarAnimation();
     callToActionAnimation();
     footerParalaxEffect();

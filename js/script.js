@@ -11,28 +11,28 @@ let
         
 document.addEventListener('DOMContentLoaded',   () => {
     initVariables();
-    setEntranceAnimation();
-    document.querySelector('.entrance-isotype').addEventListener('transitionend', setEntranceAnimation);
-    document.querySelector('.entrance-curtine').addEventListener('transitionend', landingPageIn);
+    // setEntranceAnimation();
+    // document.querySelector('.entrance-isotype').addEventListener('transitionend', setEntranceAnimation);
+    // document.querySelector('.entrance-curtine').addEventListener('transitionend', landingPageIn);
     Array.from(document.querySelectorAll('.cursor-hoverable')).forEach(element => [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => element.addEventListener(obj.event, () => document.querySelector('.cursor').classList.toggle('cursor-hover', obj.isHovering))));
     Array.from(document.querySelectorAll('.mask-activator')).forEach(element => [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => element.addEventListener(obj.event, () => maskSizeIsHovering = obj.isHovering)));
     Array.from(document.querySelectorAll('.faq-question-aswer-container')).forEach(question => question.addEventListener('click', e => openFaqQuestion(e)))
     document.querySelector('.nav-toggler-btn').addEventListener('click', toggleMovileNavContainer);
     document.addEventListener('mousemove', e => updateMouseMove(e));
-    document.addEventListener('wheel', e => updateScrollTarget({event : e}), {passive: false});
-    document.addEventListener('scroll', e => window.innerWidth > 1200 && e.preventDefault(), {passive: false});
-    document.querySelector('.abr-nav-logotype').addEventListener('click', () => updateScrollTarget({target: 0}))
-    document.querySelector('.nav-what').addEventListener('click', () => updateScrollTarget({target: document.querySelector('.separator-what').offsetTop}))
-    document.querySelector('.nav-how').addEventListener('click', () => updateScrollTarget({target: document.querySelector('.separator-how').offsetTop}))
-    document.querySelector('.nav-who').addEventListener('click', () => updateScrollTarget({target: document.querySelector('.separator-who').offsetTop}))
+    // document.addEventListener('wheel', e => updateScrollTarget({event : e}), {passive: false});
+    // document.addEventListener('scroll', e => window.innerWidth > 1200 && e.preventDefault(), {passive: false});
+    // document.querySelector('.abr-nav-logotype').addEventListener('click', () => updateScrollTarget({target: 0}))
+    // document.querySelector('.nav-what').addEventListener('click', () => updateScrollTarget({target: document.querySelector('.separator-what').offsetTop}))
+    // document.querySelector('.nav-how').addEventListener('click', () => updateScrollTarget({target: document.querySelector('.separator-how').offsetTop}))
+    // document.querySelector('.nav-who').addEventListener('click', () => updateScrollTarget({target: document.querySelector('.separator-who').offsetTop}))
     document.querySelector('.scroll-down-container').addEventListener('click', () => updateScrollTarget({target: document.querySelector('.separator-what').offsetTop}));
     document.querySelector('.chatbot-text-input').addEventListener('keydown', e => sendMessageController(e))
     document.querySelector('.chatbot-send-message').addEventListener('click', e => sendMessageController(e))
+    document.querySelector('.faq-option-faq').addEventListener('click', () => document.querySelector('.faq-content-container').classList.remove('chatbot-active'))
     document.querySelector('.faq-option-chatbot-container').addEventListener('click', () => {
         document.querySelector('.faq-content-container').classList.add('chatbot-active');
         document.querySelector('.question-shown')?.classList.remove('question-shown');
     })
-    document.querySelector('.faq-option-faq').addEventListener('click', () => document.querySelector('.faq-content-container').classList.remove('chatbot-active'))
 });
 
 function initVariables(){
@@ -106,7 +106,7 @@ function moveScrollDownIcon(){
 function updateScroll() {
     if (window.innerWidth > 1200){
         currentScrollY = lowPassFilter(targetScrollY, currentScrollY, 0.05);
-        window.scrollTo(0, currentScrollY);
+        // window.scrollTo(0, currentScrollY);
         document.querySelector('.scrollbar-thumb').style.top = `${(currentScrollY / (document.body.offsetHeight - window.innerHeight)) * 100}%`
     }
     requestAnimationFrame(updateScroll);
