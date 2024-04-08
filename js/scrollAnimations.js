@@ -127,7 +127,7 @@ function callToActionAnimation(){
                 trigger: '.call-to-action-frame',
                 start: `${50 - (i * (50 / isotypes.length))}% bottom`,
                 end: '70% bottom',
-                scrub: true,
+                scrub: 2,
             },
             x: '-50%',
             y: '-50%',
@@ -139,7 +139,7 @@ function callToActionAnimation(){
             trigger: '.call-to-action-frame',
             start: '55% 100%',
             end: '70% 80%',
-            scrub: true,
+            scrub: 2,
         },
         opacity: 1,
         scale: 1.5
@@ -159,7 +159,7 @@ function footerParalaxEffect(){
 }
 
 function showDataNumbersAnimationActivator() {
-    const numbers = document.querySelectorAll('.data-number');
+    const numbers = document.querySelectorAll('.data-container');
     numbers.forEach(element => {
         gsap.to(`#${element.id}`, {
             scrollTrigger: {
@@ -169,7 +169,10 @@ function showDataNumbersAnimationActivator() {
                 end: '50% bottom',
                 once: true
             },
-            onUpdate: showDataNumbersAnimation
+            onUpdate: () => {
+                element.classList.add('data-container-shown');
+                showDataNumbersAnimation();
+            }
         })
     })
 }
@@ -182,7 +185,6 @@ function showDataNumbersAnimation() {
         let objectiveNumber = parseFloat(number.dataset.objectiveNumber);
         let difference = objectiveNumber - currentNumberFloat;
         let step = difference / changes;
-
         if (Math.abs(difference) < 1) {
             number.textContent = objectiveNumber;
         } else {
