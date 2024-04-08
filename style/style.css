@@ -563,7 +563,7 @@ a{
 .masked-container{
     position: absolute;
     bottom: 0;
-    mask-image: url(/media/mask-image.svg);
+    mask-image: url(../media/mask-image.svg);
     mask-repeat: no-repeat;
     background: var(--website-color);
     color: var(--background-color);
