@@ -416,17 +416,6 @@ a{
     font-size: 20px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 .movile-nav-shown .movile-options-container-bg{
     transition-delay: 0s;
 }
@@ -590,6 +579,82 @@ a{
     aspect-ratio: 1/1;
     transform: translateY(-100%) scale(2);
 }
+
+
+
+/*   ______________________   INTERACTIVE MAP   ______________________   */
+
+
+.marker-map-frame{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 50;
+    transition: background-color 0.5s;
+    pointer-events: none;
+}
+
+.map-active.marker-map-frame{
+    background-color: rgba(0, 0, 0, 0.4);
+    pointer-events: all;
+}
+
+.marker-map-icon-btn{
+    position: absolute;
+    bottom: 2vw;
+    right: 2vw;
+    background-color: var(--background-color);
+    border: 1px solid var(--website-color);
+    width: 70px;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    pointer-events: all;
+
+}
+
+.marker-map-icon{
+    width: 75%;
+    fill: none;
+    stroke: var(--website-color);
+    stroke-width: 1.5px;
+}
+
+.interactive-map-frame{
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+
+    top: 100vw;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    transition: top 0.5s;
+    background-color: var(--background-color);
+    border: 1px solid black;
+}
+
+.map-active .interactive-map-frame{
+    top: 15vh;
+}
+
+.mapbox-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60vw;
+    height: 100%;
+}
+
+.mapbox-simulation-img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+
 
 
 

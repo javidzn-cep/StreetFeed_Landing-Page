@@ -17,9 +17,9 @@ let
 document.addEventListener('DOMContentLoaded',   () => {
     initVariables();
     sendConsoleLogMessage();
-    setEntranceAnimation();
-    document.querySelector('.entrance-isotype').addEventListener('transitionend', setEntranceAnimation);
-    document.querySelector('.entrance-curtine').addEventListener('transitionend', landingPageIn);
+    // setEntranceAnimation();
+    // document.querySelector('.entrance-isotype').addEventListener('transitionend', setEntranceAnimation);
+    // document.querySelector('.entrance-curtine').addEventListener('transitionend', landingPageIn);
     Array.from(document.querySelectorAll('.cursor-hoverable')).forEach(element => [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => element.addEventListener(obj.event, () => document.querySelector('.cursor-frame').classList.toggle('cursor-hover', obj.isHovering))));
     Array.from(document.querySelectorAll('.mask-activator')).forEach(element => [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => element.addEventListener(obj.event, () => maskSizeIsHovering = obj.isHovering)));
     Array.from(document.querySelectorAll('.who-dev-name-container')).forEach(element => element.addEventListener('click', e => {!e.currentTarget.classList.contains('dev-shown') && changeDeveloperInfo(e)}))
@@ -31,8 +31,15 @@ document.addEventListener('DOMContentLoaded',   () => {
     document.querySelector('.chatbot-send-message').addEventListener('click', e => sendMessageController(e))
     document.querySelector('.faq-option-faq').addEventListener('click', () => document.querySelector('.faq-content-container').classList.remove('chatbot-active'))
     document.querySelector('.faq-option-chatbot-container').addEventListener('click', openChatBotFrame);
+    document.querySelector('.marker-map-icon-btn').addEventListener('click', e => toggleMap(e, true));
+    document.querySelector('.marker-map-frame').addEventListener('click', e => toggleMap(e, false));
     [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => document.querySelector('.who-img-frame').addEventListener(obj.event, () => document.querySelector('.cursor-frame').classList.toggle('cursor-hovering-contact-me', obj.isHovering)));
 });
+
+function toggleMap(e, mapActive){
+    e.stopPropagation();
+    document.querySelector('.marker-map-frame').classList.toggle('map-active', mapActive)
+}
 
 function openChatBotFrame(){
     document.querySelector('.faq-content-container').classList.add('chatbot-active');
