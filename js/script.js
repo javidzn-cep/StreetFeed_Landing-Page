@@ -8,37 +8,137 @@ const
         {devIndex: '1', fullname: 'Mario Molina', workDescription: 'Full-Stack Developer', imgClassNanme: 'who-img-mario', contactURL: ''},
         {devIndex: '2', fullname: 'Pol Crespo', workDescription: 'Back-End Developer', imgClassNanme: 'who-img-pol', contactURL: ''},
         {devIndex: '3', fullname: 'Josue Quispe', workDescription: 'Front-End Developer', imgClassNanme: 'who-img-josue', contactURL: ''}],
+    mapBoxToken = 'pk.eyJ1Ijoic3RyZWV0ZmVlZCIsImEiOiJjbHRkOWMzMXgwMDlyMmpybnA0MGt1N3RpIn0.jBsWG7vIB54CaqmpwbMapw', 
     lowPassFilter = (newValue, prevValue, alpha) => alpha * newValue + (1 - alpha) * prevValue,
     updateMouseMove = e => [cursorX, cursorY] = [e.clientX, e.clientY];
 
 let 
-    cursorX, cursorY, rollBarTransaltePerc, cursorRollBarTransaltePerc, currentMaskSize, maskSizeIsHovering, movingMapFrame;
+    cursorX, cursorY, rollBarTransaltePerc, cursorRollBarTransaltePerc, currentMaskSize, maskSizeIsHovering, mapboxMap, movingMapFrame, searchBoxTimeoutID;
         
 document.addEventListener('DOMContentLoaded',   () => {
     initVariables();
     sendConsoleLogMessage();
+    createMap();
     // setEntranceAnimation();
     // document.querySelector('.entrance-isotype').addEventListener('transitionend', setEntranceAnimation);
     // document.querySelector('.entrance-curtine').addEventListener('transitionend', landingPageIn);
     Array.from(document.querySelectorAll('.cursor-hoverable')).forEach(element => [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => element.addEventListener(obj.event, () => document.querySelector('.cursor-frame').classList.toggle('cursor-hover', obj.isHovering))));
     Array.from(document.querySelectorAll('.mask-activator')).forEach(element => [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => element.addEventListener(obj.event, () => maskSizeIsHovering = obj.isHovering)));
     Array.from(document.querySelectorAll('.who-dev-name-container')).forEach(element => element.addEventListener('click', e => {!e.currentTarget.classList.contains('dev-shown') && changeDeveloperInfo(e)}))
-    Array.from(document.querySelectorAll('.faq-question-aswer-container')).forEach(question => question.addEventListener('click', e => openFaqQuestion(e)))
-    Array.from(document.querySelectorAll('.movile-nav-landing-part-container')).forEach(element => element.addEventListener('click', () => document.querySelector('.navbar-frame').classList.remove('movile-nav-shown')))
+    Array.from(document.querySelectorAll('.faq-question-aswer-container')).forEach(question => question.addEventListener('click', openFaqQuestion))
+    Array.from(document.querySelectorAll('.movile-nav-landing-part-container')).forEach(element => element.addEventListener('click', () => document.querySelector('.navbar-frame').classList.remove('movile-nav-shown')));
+    Array.from(document.querySelectorAll('.search-box-suggestion-container')).forEach(element => element.addEventListener('click', e => insertCoordinatesInMap(e.currentTarget, e.currentTarget.dataset.lng, e.currentTarget.dataset.lat)))
     document.querySelector('.nav-toggler-btn').addEventListener('click', toggleMovileNavContainer);
-    document.addEventListener('mousemove', e => updateMouseMove(e));
-    document.querySelector('.chatbot-text-input').addEventListener('keydown', e => sendMessageController(e))
-    document.querySelector('.chatbot-send-message').addEventListener('click', e => sendMessageController(e))
+    document.addEventListener('mousemove', updateMouseMove);
+    document.querySelector('.chatbot-text-input').addEventListener('keydown', sendMessageController)
+    document.querySelector('.chatbot-send-message').addEventListener('click', sendMessageController)
     document.querySelector('.faq-option-faq').addEventListener('click', () => document.querySelector('.faq-content-container').classList.remove('chatbot-active'))
     document.querySelector('.faq-option-chatbot-container').addEventListener('click', openChatBotFrame);
-    document.querySelector('.marker-map-icon-btn').addEventListener('click', e => toggleMap(true));
-    // document.querySelector('.marker-map-frame').addEventListener('click', e => toggleMap(false);
+    document.querySelector('.marker-map-icon-btn').addEventListener('click', e => toggleMap({e: e, mapActive: true}));
+    document.querySelector('.marker-map-frame').addEventListener('click', () => toggleMap({mapActive: false}));
+    document.querySelector('.interactive-map-frame').addEventListener('click', e => e.stopPropagation());
     [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => document.querySelector('.who-img-frame').addEventListener(obj.event, () => document.querySelector('.cursor-frame').classList.toggle('cursor-hovering-contact-me', obj.isHovering)));
     document.querySelector('.map-handle-container').addEventListener('mousedown', setInteractiveMapFrameMovement)
-    document.querySelector('.map-handle-container').addEventListener('touchstart', setInteractiveMapFrameMovement)
-
-
+    document.querySelector('.map-handle-container').addEventListener('touchstart', setInteractiveMapFrameMovement, {passive: false})
+    document.querySelector('.search-box-input-user').addEventListener('input', requestMapboxSuggestions)
+    document.querySelector('.search-geolocalitation-btn').addEventListener('click', getGeolotitationCoords)
+    document.querySelector('.confirm-marker-btn').addEventListener('click', getLangLatCenter)
 });
+
+mapboxMap.on('drag', () => )
+
+function getLangLatCenter(){
+    console.log(mapboxMap.getCenter());
+}
+
+function resetMapFrame(){
+
+}
+
+function getGeolotitationCoords(e){
+    const target = e.currentTarget
+    navigator.geolocation.getCurrentPosition(
+        position => insertCoordinatesInMap(target, position.coords.longitude, position.coords.latitude), 
+        error => console.warn(`Error getting geolocation: ${error}`), 
+        {enableHighAccuracy: true}
+    );
+}
+
+function requestMapboxSuggestions(){
+    clearTimeout(searchBoxTimeoutID);
+    searchBoxTimeoutID = setTimeout(getMapboxSuggestionsId, 500)
+}
+
+function getMapboxSuggestionsId(){
+    const suggestion = document.querySelector('.search-box-input-user').value.trim()
+    if (suggestion != '') {
+        const url = `https://api.mapbox.com/search/searchbox/v1/suggest?q=${suggestion.replace(' ', '+')}&language=es&limit=10&session_token=0b344167-ac1a-4431-88ec-d67bd7c0f942&access_token=${mapBoxToken}`;
+        fetch(url)
+        .then(response => response.json())
+        .then(resultArr => {
+            const suggestionsMapboxIds = resultArr.suggestions.map(suggestion => suggestion.mapbox_id);
+            Promise.all(suggestionsMapboxIds.map(mapboxId => getMapboxInformationByID(mapboxId)))
+            .then(results => insertSearchBoxRestults(results));
+        })
+        .catch(error => console.warn(`Mapbox Searchbox Error:insertSearchBoxRestults(results) ${error}`))
+    }
+}
+
+async function getMapboxInformationByID(mapboxId){
+    const url = `https://api.mapbox.com/search/details/v1/retrieve/${mapboxId}?access_token=${mapBoxToken}`
+    return fetch(url)
+    .then(response => response.json())
+    .then(resultData => resultData)
+    .catch(error => console.warn(`Get Data From Id: ${error}`))
+}
+
+function insertSearchBoxRestults(data){
+    const frame = document.querySelector('.search-box-suggestions-continer')
+    Array.from(document.querySelectorAll('.search-box-suggestion-container')).forEach(suggestion => suggestion.remove());
+    data.forEach(suggestionData => frame.appendChild(createSuggestion({
+            name: suggestionData.properties.name, 
+            city: suggestionData.properties.context.place?.name, 
+            province: suggestionData.properties.context.region?.name, 
+            country: suggestionData.properties.context.country?.name,
+            lat: suggestionData.properties.coordinates.latitude,
+            lng: suggestionData.properties.coordinates.longitude
+        })))
+}
+
+function createSuggestion({name, city, province, country, lat, lng}) {
+    const suggestionContainer = document.createElement('div');
+    const nameDiv = document.createElement('div');
+    const addressDiv = document.createElement('div');
+    suggestionContainer.classList.add('search-box-suggestion-container', 'cursor-hoverable');
+    suggestionContainer.dataset.lat = lat;
+    suggestionContainer.dataset.lng = lng;
+    nameDiv.classList.add('search-box-name');
+    nameDiv.textContent = name;
+    addressDiv.classList.add('search-box-address');
+    addressDiv.textContent = [city, province, country].filter(data => data != null).join(', ');
+    suggestionContainer.appendChild(nameDiv);
+    suggestionContainer.appendChild(addressDiv);
+    [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => suggestionContainer.addEventListener(obj.event, () => document.querySelector('.cursor-frame').classList.toggle('cursor-hover', obj.isHovering)));
+    suggestionContainer.addEventListener('click', e => insertCoordinatesInMap(suggestionContainer, lng, lat))
+    return suggestionContainer;
+}
+
+function insertCoordinatesInMap(target, lng, lat){
+    document.querySelector('.search-box-option-selected')?.classList.remove('search-box-option-selected')
+    document.querySelector('.confirm-marker-btn').disabled = false;
+    target.classList.add('search-box-option-selected')
+    mapboxMap.flyTo({ center: [lng, lat], zoom: 18, speed: 1.8, curve: 1, essential: true });
+}
+
+function createMap(){
+    mapboxgl.accessToken = mapBoxToken;
+    mapboxMap = new mapboxgl.Map({
+        container: 'mapbox-map',
+        style: 'mapbox://styles/mapbox/light-v11',
+        center: [2.15899, 41.38879],
+        zoom: 11,
+    })
+}
 
 function setInteractiveMapFrameMovement(){
     const frame = document.querySelector('.interactive-map-frame');
@@ -63,16 +163,18 @@ function setFinalMovementInteractiveMap() {
     const frame = document.querySelector('.interactive-map-frame');
     const backdrop = document.querySelector('.marker-map-frame')
     const frameRect = frame.getBoundingClientRect();
-    toggleMap((frameRect.top < (window.innerHeight * 0.15 + frameRect.height * 0.25)))
+    toggleMap({mapActive: (frameRect.top < (window.innerHeight * 0.15 + frameRect.height * 0.25))})
     document.removeEventListener('mousemove', moveInteractiveMapFrame)
     document.removeEventListener('touchmove', moveInteractiveMapFrame)
     frame.removeAttribute('style');
     backdrop.removeAttribute('style');
 }
 
-function toggleMap(mapActive){
+function toggleMap({e = null , mapActive = false}){
+    e?.stopPropagation();
     document.querySelector('.marker-map-frame').classList.toggle('map-active', mapActive)
     document.body.classList.toggle('scroll-block', mapActive)
+    mapActive && resetMapFrame();
 }
  
 function openChatBotFrame(){

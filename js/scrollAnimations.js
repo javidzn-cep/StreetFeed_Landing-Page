@@ -180,6 +180,7 @@ function showDataNumbersAnimationActivator() {
 function showDataNumbersAnimation() {
     const numbers = document.querySelectorAll('.data-number');
     const changes = 1500;
+    const animationFinished = false
     numbers.forEach(number => {
         let currentNumberFloat = parseFloat(number.dataset.currentNumberFloat);
         let objectiveNumber = parseFloat(number.dataset.objectiveNumber);
@@ -187,6 +188,7 @@ function showDataNumbersAnimation() {
         let step = difference / changes;
         if (Math.abs(difference) < 1) {
             number.textContent = objectiveNumber;
+            animationFinished = true
         } else {
             currentNumberFloat += step;
             number.dataset.currentNumberFloat = currentNumberFloat;

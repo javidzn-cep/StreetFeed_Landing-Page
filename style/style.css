@@ -36,7 +36,6 @@
     --map-frame-top: 15vh;
     --map-width: 70vw;
     --map-handle-color: #c9c9c9;
-    
 }
 
 /*   ______________________   GENERAL   ______________________   */
@@ -635,7 +634,7 @@ a{
     height: calc(100vh - var(--map-frame-top));
     transition: top 0.5s;
     background-color: var(--background-color);
-    border: 1px solid black;
+    border-top: 1px solid black;
     font-size: clamp(15px, 3vw, 20px);
 }
 
@@ -710,6 +709,7 @@ a{
 
 .nav-button-option:disabled {
     background-color: #727272;
+    pointer-events: none;
 }
 
 .nav-button-option:disabled .nav-option-name-container{
@@ -752,8 +752,13 @@ a{
     transition: background-color 0.3s;
 }
 
-.search-geolocalitation-btn:hover, .search-box-suggestion-container:hover{
+.search-geolocalitation-btn:not(.search-box-option-selected):hover, .search-box-suggestion-container:hover{
     background-color: #f5f5f5;
+}
+
+.search-box-option-selected{
+    background-color: #dfdfdf;
+
 }
 
 .search-geolocalitation-icon{
@@ -789,7 +794,6 @@ a{
 .search-box-suggestions-continer{
     width: 100%;
     height: 35vh;
-
     overflow: auto;
 }
 
@@ -803,14 +807,13 @@ a{
     font-weight: 500;
 }
 
-.search-box-adress, .search-geolocalitation-secondary-text{
+.search-box-address, .search-geolocalitation-secondary-text{
     font-family: var(--font-secondary);
     font-size: 0.7em;
     color:#a8a8a8;
 }
 
-
-.mapbox-container{
+#mapbox-map{
     position: absolute;
     top: 0;
     right: 0;
@@ -822,19 +825,14 @@ a{
     height: 100%;
 }
 
-.mapbox-simulation-img{
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
+.mapboxgl-compact{
+    display: none !important;
 }
+
 
 .confirm-marker-btn{
     width: 100%;
 }
-
-
-
-
 
 
 /*   ______________________   ROLLBAR   ______________________   */
@@ -1707,7 +1705,7 @@ a{
         top: 7%;
     }
 
-    .mapbox-container{
+    #mapbox-map{
         top: 15%;
         left: 0;
         transform: none;
