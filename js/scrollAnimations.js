@@ -112,7 +112,7 @@ function faqImageParallaxEffect(){
                 trigger: '.faq-frame',
                 start: 'top bottom',
                 end: 'bottom top',
-                scrub: true,
+                scrub: 1,
             },
             transform: `translateY(${img.offsetHeight - frame.offsetHeight}px)`
         })

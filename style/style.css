@@ -33,6 +33,9 @@
     --who-name-font-size: 10vw;
     --who-img-aspect-ratio: 1 / 1;
 
+    --map-frame-top: 15vh;
+    --map-width: 70vw;
+    --map-handle-color: #c9c9c9;
     
 }
 
@@ -43,6 +46,7 @@
     margin: 0;
     font-family: 'Rubik', 'sans-serif';
     cursor: none;
+    user-select: none;
 }
 
 html{
@@ -598,21 +602,20 @@ a{
 }
 
 .map-active.marker-map-frame{
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.6);
     pointer-events: all;
 }
 
 .marker-map-icon-btn{
     position: absolute;
-    bottom: 2vw;
+    bottom: calc(2vw + (100vh - 100dvh));
     right: 2vw;
     background-color: var(--background-color);
     border: 1px solid var(--website-color);
-    width: 70px;
+    width: clamp(50px, 4vw, 100px);
     border-radius: 50%;
     aspect-ratio: 1/1;
     pointer-events: all;
-
 }
 
 .marker-map-icon{
@@ -626,25 +629,196 @@ a{
     position: absolute;
     display: flex;
     justify-content: space-between;
-
-    top: 100vw;
+    top: 100vh;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - var(--map-frame-top));
     transition: top 0.5s;
     background-color: var(--background-color);
     border: 1px solid black;
+    font-size: clamp(15px, 3vw, 20px);
 }
 
 .map-active .interactive-map-frame{
-    top: 15vh;
+    top: var(--map-frame-top);
 }
 
-.mapbox-container{
+.map-handle-container{
+    position: absolute;
+    top: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 60vw;
+    left: 50%;
+    transform: translate(-50%, -0.5px);
+    height: 20px;
+    width: 30vw;
+    background-color: var(--background-color);
+    border-radius: 0 0 10px 10px;
+    border: 1px solid var(--website-color);
+    border-top: none;
+}
+
+.map-handle{
+    width: 90%;
+    height: 30%;
+    background-color: var(--map-handle-color);
+    border-radius: 400px;
+    pointer-events: none;
+}
+
+.map-active .map-handle-container{
+    pointer-events: all;
+}
+
+.map-user-frame{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: clamp(400px, calc(100vw - var(--map-width)), 100vw) ;
+    gap: 100px;
+}
+
+.search-box-input-user-container{
+    position: absolute;
+    left: 50%;
+    top: 15%;
+    width: 75%;
+    transform: translateX(-50%);
+}
+
+.search-box-input-user{
+    position: relative;
+    width: 100%;
+    outline: none;
+    font-size: 20px;
+    border-width: 0px 0px 2px 0px;
+    padding-left: 10px;
+    border-color: #c7c7c7;
+    transition: border-color 0.5s;
+}
+
+.search-box-input-user:focus{
+    border-color: var(--website-color);
+
+}
+
+.nav-button-option:disabled {
+    background-color: #727272;
+}
+
+.nav-button-option:disabled .nav-option-name-container{
+    transform: none;
+}
+
+
+.map-markers-options-container{
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 75%;
+    gap: 45px;
+}
+
+.search-box-suggestions-frame{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-geolocalitation-btn{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-bottom: 1px solid var(--website-color);
+    padding-block: 10px;
+}
+
+.search-geolocalitation-btn, .search-box-suggestion-container{
+    width: 100%;
+    padding: 10px;
+    transition: background-color 0.3s;
+}
+
+.search-geolocalitation-btn:hover, .search-box-suggestion-container:hover{
+    background-color: #f5f5f5;
+}
+
+.search-geolocalitation-icon{
+    height: 40px;
+    overflow: visible;
+}
+.search-icon-stroke{
+    fill: transparent;
+    stroke: var(--website-color);
+    stroke-width: 1px;
+}
+
+.search-icon-fill{
+    fill: var(--website-color);
+}
+
+.search-geolocalitation-text{
+    display: flex;
+    flex-direction: column;
+}
+
+.search-box-suggestions-frame{
+    display: flex;
+    justify-content: start;
+    width: 100%;
+}
+
+.search-box-suggestion-title{
+    width: 100%;
+    color: #a8a8a8;
+}
+
+.search-box-suggestions-continer{
+    width: 100%;
+    height: 35vh;
+
+    overflow: auto;
+}
+
+.search-box-suggestion-container:not(:last-of-type){
+    border-bottom: 1px solid var(--website-color);
+}
+
+.search-box-name, .search-geolocalitation-primary-text{
+    font-family: var(--font-primary);
+    font-size: 1em;
+    font-weight: 500;
+}
+
+.search-box-adress, .search-geolocalitation-secondary-text{
+    font-family: var(--font-secondary);
+    font-size: 0.7em;
+    color:#a8a8a8;
+}
+
+
+.mapbox-container{
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--map-width);
     height: 100%;
 }
 
@@ -1011,7 +1185,7 @@ a{
     transition: 0.5s;
 }
 
-.faq-question-aswer-container{
+.faq-question-aswer-container, .faq-chatbot-frame{
     font-size: clamp(15px, 0.97vw, 50px);
 }
 
@@ -1113,6 +1287,7 @@ a{
 .user-message{
     align-self: end;
     text-align: end;
+    font-size: 1em;
     color: rgb(197, 197, 197);
 }
 
@@ -1245,7 +1420,6 @@ a{
 
 .who-dev-names-container{
     padding: 20px 40px;
-    /* margin-right: 5vw; */
     border-block: 1px solid var(--website-color);
     background-color: var(--background-color);
     opacity: 1;
@@ -1522,6 +1696,47 @@ a{
         flex-direction: column;
         align-items: end;
     }
+
+
+
+    .search-box-input-user-container{
+        top: 7%;
+    }
+
+    .mapbox-container{
+        top: 15%;
+        left: 0;
+        transform: none;
+        width: 100vw;
+        height: 30%;
+    }
+
+    .map-markers-options-container{
+        top: 60%
+    }
+    .search-geolocalitation-icon{
+        width: 30px;
+    }
+
+
+    .confirm-marker-btn{
+        display: none;
+    }
+
+
+    .map-user-frame{
+        width: 100vw;
+    }
+
+    .map-user-frame{
+        gap: 5px;
+    }
+
+    .map-handle-container{
+        border: none;
+        transform: translateX(-50%);
+    }
+    
 
 }
 

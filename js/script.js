@@ -12,7 +12,7 @@ const
     updateMouseMove = e => [cursorX, cursorY] = [e.clientX, e.clientY];
 
 let 
-    cursorX, cursorY, rollBarTransaltePerc, cursorRollBarTransaltePerc, currentMaskSize, maskSizeIsHovering
+    cursorX, cursorY, rollBarTransaltePerc, cursorRollBarTransaltePerc, currentMaskSize, maskSizeIsHovering, movingMapFrame;
         
 document.addEventListener('DOMContentLoaded',   () => {
     initVariables();
@@ -31,16 +31,50 @@ document.addEventListener('DOMContentLoaded',   () => {
     document.querySelector('.chatbot-send-message').addEventListener('click', e => sendMessageController(e))
     document.querySelector('.faq-option-faq').addEventListener('click', () => document.querySelector('.faq-content-container').classList.remove('chatbot-active'))
     document.querySelector('.faq-option-chatbot-container').addEventListener('click', openChatBotFrame);
-    document.querySelector('.marker-map-icon-btn').addEventListener('click', e => toggleMap(e, true));
-    document.querySelector('.marker-map-frame').addEventListener('click', e => toggleMap(e, false));
+    document.querySelector('.marker-map-icon-btn').addEventListener('click', e => toggleMap(true));
+    // document.querySelector('.marker-map-frame').addEventListener('click', e => toggleMap(false);
     [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => document.querySelector('.who-img-frame').addEventListener(obj.event, () => document.querySelector('.cursor-frame').classList.toggle('cursor-hovering-contact-me', obj.isHovering)));
+    document.querySelector('.map-handle-container').addEventListener('mousedown', setInteractiveMapFrameMovement)
+    document.querySelector('.map-handle-container').addEventListener('touchstart', setInteractiveMapFrameMovement)
+
+
 });
 
-function toggleMap(e, mapActive){
-    e.stopPropagation();
-    document.querySelector('.marker-map-frame').classList.toggle('map-active', mapActive)
+function setInteractiveMapFrameMovement(){
+    const frame = document.querySelector('.interactive-map-frame');
+    const backdrop = document.querySelector('.marker-map-frame')
+    frame.style.transition = backdrop.style.transition = '0s';
+    document.addEventListener('mousemove', moveInteractiveMapFrame)
+    document.addEventListener('touchmove', moveInteractiveMapFrame)
+    document.addEventListener('mouseup', setFinalMovementInteractiveMap ,{once: true});
+    document.addEventListener('touchend', setFinalMovementInteractiveMap ,{once: true})
+
 }
 
+function moveInteractiveMapFrame(e){
+    const frame = document.querySelector('.interactive-map-frame');
+    const backdrop = document.querySelector('.marker-map-frame')
+    const frameRect = frame.getBoundingClientRect();
+    frame.style.top = `${Math.max(e.type == 'mousemove' ? e.clientY : e.touches[0].clientY , window.innerHeight * 0.15)}px`
+    backdrop.style.backgroundColor = `rgba(0, 0 ,0, ${0.6 * (1 - (frameRect.top - (window.innerHeight * 0.15)) / (window.innerHeight - (window.innerHeight * 0.15)))})`
+}
+
+function setFinalMovementInteractiveMap() {
+    const frame = document.querySelector('.interactive-map-frame');
+    const backdrop = document.querySelector('.marker-map-frame')
+    const frameRect = frame.getBoundingClientRect();
+    toggleMap((frameRect.top < (window.innerHeight * 0.15 + frameRect.height * 0.25)))
+    document.removeEventListener('mousemove', moveInteractiveMapFrame)
+    document.removeEventListener('touchmove', moveInteractiveMapFrame)
+    frame.removeAttribute('style');
+    backdrop.removeAttribute('style');
+}
+
+function toggleMap(mapActive){
+    document.querySelector('.marker-map-frame').classList.toggle('map-active', mapActive)
+    document.body.classList.toggle('scroll-block', mapActive)
+}
+ 
 function openChatBotFrame(){
     document.querySelector('.faq-content-container').classList.add('chatbot-active');
     document.querySelector('.question-shown')?.classList.remove('question-shown');
@@ -54,7 +88,7 @@ function scrollBlock(e){
 function initVariables(){
     cursorX = cursorY = rollBarTransaltePerc = cursorRollBarTransaltePerc = currentScrollY = targetScrollY = 0;
     currentMaskSize = Number(window.getComputedStyle(document.querySelector('.masked-container')).getPropertyValue('mask-size').replace(/\D/g, ''));
-    maskSizeIsHovering = false
+    maskSizeIsHovering = movingMapFrame = false;
     moveCursor();
     moveRollBar();
     moveScrollDownIcon();
@@ -248,7 +282,7 @@ function sendConsoleLogMessage(){
         'font-family: sans-serif',        
     ].join(';')
     const textStyle = [
-        'font-size: 12px;',
+        'font-size: 13px;',
         'font-family: sans-serif',        
     ].join(';')
     console.log(`\n%c${title}\n\n\n%c${subtittle}\n\n%c${text}\n\n\n`, titleStyle, subtittleStyle, textStyle)
