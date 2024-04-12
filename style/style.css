@@ -691,7 +691,7 @@ a{
     transform: translateX(-50%);
 }
 
-.search-box-input-user{
+.search-box-input-user, .num-homeless-input{
     position: relative;
     width: 100%;
     outline: none;
@@ -702,7 +702,7 @@ a{
     transition: border-color 0.5s;
 }
 
-.search-box-input-user:focus{
+.search-box-input-user:focus, .num-homeless-input:focus{
     border-color: var(--website-color);
 
 }
@@ -832,7 +832,7 @@ a{
 }
 
 
-.confirm-marker-btn{
+.confirm-marker-btn, .place-marker-btn{
     width: 100%;
 }
 
@@ -890,6 +890,97 @@ canvas{
     opacity: 0.4;
     filter: blur(2px);
     width: 50px;
+}
+
+.modal-backdrop{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgb(0, 0, 0, 0);
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+.modal-shown.modal-backdrop{
+    background-color: rgb(0, 0, 0, 0.3);
+    pointer-events: all;
+}
+
+.modal-frame{
+    width: 50vw;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: white;
+    opacity: 0;
+    transform: scale(0.8);
+    pointer-events: none;
+    transition: 0.3s;
+    padding: 50px;
+    border-inline: 1px solid black;
+}
+
+.modal-shown .modal-frame{
+    transform: scale(1);
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal-header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.modal-title{
+    font-family: var(--font-secondary);
+    font-size: 50px;
+    font-weight: 900;
+}
+
+.modal-subtitle{
+    font-family: var(--font-secondary);
+    font-size: 20px;
+    width: 85%;
+}
+
+.modal-content-container{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+.modal-location-container * {
+    color: gray;
+}
+
+.modal-location-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: start;
+    border-right: 1px solid gray;
+}
+
+.modal-input-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.modal-location-container, .modal-input-container{
+    width: 50%;
+    padding: 30px;
 }
 
 
