@@ -17,7 +17,7 @@
     <script src="./js/script.js"></script>
     <script src="./js/scrollAnimations.js"></script>
 </head>
-<body class="">
+<body class="scroll-block">
     <div class="cursor-frame">
         <div class="cursor"></div>
         <div class="contact-me-cursor">
@@ -184,7 +184,7 @@
 
 
 
-    <div class="marker-map-frame">
+    <div class="marker-map-frame map-active">
         <div class="marker-map-icon-btn cursor-hoverable flex-center">
             <svg class="marker-map-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
                 <path d="M65.23,61.76c-2.65,12.35-9.61,21.16-17.77,21.16-10.45,0-18.93-14.44-18.93-32.26s8.48-32.26,18.93-32.26" />
@@ -201,7 +201,21 @@
                 <div class="search-box-input-user-container">
                     <input class="search-box-input-user" placeholder="Write your location...">
                 </div>
-                <div id="mapbox-map"></div>
+                <div class="mapbox-map-container">
+                    <div id="mapbox-map"></div>
+                    <div class="map-pointer-container">
+                        <svg class="map-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                            <circle class="map-pointer-shadow" cx="50" cy="50" r="50"></circle>
+                            <g class="map-pointer-item">
+                                <circle class="map-pointer-boder" cx="50" cy="50" r="50"></circle>
+                                <g class="map-pointer-top">
+                                    <circle class="map-pointer-inner-circle" cx="50" cy="50" r="50"></circle>
+                                    <circle class="map-pointer-outter-circle" cx="50" cy="50" r="35"></circle>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
                 <div class="map-markers-options-container">
                     <div class="search-geolocalitation-btn cursor-hoverable">
                         <svg class="search-geolocalitation-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
@@ -216,7 +230,7 @@
                     </div>
                     <div class="search-box-suggestions-frame">
                         <div class="search-box-suggestion-title">SUGGESTIONS</div>
-                        <div class="search-box-suggestions-continer">
+                        <div class="search-box-suggestions-container">
                             <div class="search-box-suggestion-container cursor-hoverable" data-lat="41.353858016777" data-lng="2.06977688038913">
                                 <div class="search-box-name">Carrer Del Cinema Bel 24</div>
                                 <div class="search-box-address">Cornellà de Llobregat, Barcelona, Spain</div>
@@ -262,8 +276,8 @@
                     <button type="button" class="confirm-marker-btn nav-option-container nav-button-option cursor-hoverable" disabled>
                         <div class="option-overflow-window">
                             <div class="nav-option-name-container">
-                                <div class="nav-option-name">CONFIRM MARKER</div>
-                                <div class="nav-option-name">CONFIRM MARKER</div>
+                                <div class="nav-option-name">CONFIRM LOCATION</div>
+                                <div class="nav-option-name">CONFIRM LOCATION</div>
                             </div>
                         </div>
                     </button>
@@ -565,10 +579,10 @@
                     <img class="who-img" src="./media/who-javi.jpg" alt="Javier Díaz Dev Photo" draggable="false">
                 </div>
                 <div class="who-img-container who-img-pol">
-                    <img class="who-img" src="./media/who-pol.jpeg" alt="Pol Crespo Dev Photo" draggable="false">
+                    <img class="who-img" src="./media/who-pol.png" alt="Pol Crespo Dev Photo" draggable="false">
                 </div>
                 <div class="who-img-container who-img-mario">
-                    <img class="who-img" src="./media/who-mario.jpeg" alt="Mario Molina Dev Photo" draggable="false">
+                    <img class="who-img" src="./media/who-mario.png" alt="Mario Molina Dev Photo" draggable="false">
                 </div>
                 <div class="who-img-container who-img-josue">
                     <img class="who-img" src="./media/who-josue.jpeg" alt="Josue Quispe Dev Photo" draggable="false">
