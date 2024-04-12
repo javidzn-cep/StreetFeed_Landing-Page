@@ -2,6 +2,7 @@
     /* Colors */
     --background-color: #ffffff;
     --website-color: #000000 ;
+    --error-color: #ff5252;
 
     /* Fonts */
     --font-corporative: 'Bayon', 'sans-serif';
@@ -1433,13 +1434,23 @@ canvas{
     display: inline;
     max-width: 60%;
     margin: 30px 10px;
+    font-size: 0.9em;
+
 }
 
 .user-message{
     align-self: end;
     text-align: end;
-    font-size: 1em;
     color: rgb(197, 197, 197);
+}
+
+.error-message{
+    max-width: 70%;
+    color: var(--error-color);
+    border-bottom: 1px solid var(--error-color);
+    text-align: center;
+    align-self: center;
+    padding: 0px 20px;
 }
 
 .message-waiting-response .chatbot-waiting-indicator{

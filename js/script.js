@@ -13,7 +13,6 @@ const
         style: 'mapbox://styles/mapbox/light-v11',
         center: [2.15899, 41.38879],
         zoom: 11,
-        // zoom: 20,
         pitch: 25,
         bearing: 0
     },
@@ -30,9 +29,9 @@ document.addEventListener('DOMContentLoaded',   () => {
     createMap();
     initVariables();
     sendConsoleLogMessage();
-    setEntranceAnimation();
-    document.querySelector('.entrance-isotype').addEventListener('transitionend', setEntranceAnimation);
-    document.querySelector('.entrance-curtine').addEventListener('transitionend', landingPageIn);
+    // setEntranceAnimation();
+    // document.querySelector('.entrance-isotype').addEventListener('transitionend', setEntranceAnimation);
+    // document.querySelector('.entrance-curtine').addEventListener('transitionend', landingPageIn);
     Array.from(document.querySelectorAll('.cursor-hoverable')).forEach(element => [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => element.addEventListener(obj.event, () => document.querySelector('.cursor-frame').classList.toggle('cursor-hover', obj.isHovering))));
     Array.from(document.querySelectorAll('.mask-activator')).forEach(element => [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => element.addEventListener(obj.event, () => maskSizeIsHovering = obj.isHovering)));
     Array.from(document.querySelectorAll('.who-dev-name-container')).forEach(element => element.addEventListener('click', e => {!e.currentTarget.classList.contains('dev-shown') && changeDeveloperInfo(e)}))
@@ -70,6 +69,7 @@ function saveMarker(){
         lat: modalConfirmatedCenter.lat,
         numPeople: numPeople
     }
+    toggleModal(false)
     console.log(markerInfo)
 }
 
@@ -83,6 +83,7 @@ function controlInputNumHomeless(e){
 function toggleModal(modalShown){
     const backdrop = document.querySelector('.modal-backdrop');
     const modal = document.querySelector('.modal-frame');
+
     backdrop.classList.toggle('modal-shown', modalShown)
 }
 
@@ -353,7 +354,9 @@ function sendChatBotMessage(){
     .then(response => {
         chatbotWritingAnimation(response);
     })
-    .catch(error => console.warn(error))
+    .catch(error => {
+        createChatbotErrorMessage(error)
+    })
 
     frame.appendChild(createUserMessage(input.value));
     frame.appendChild(createChatbotMessage())
@@ -376,6 +379,19 @@ function chatbotWritingAnimation(chatbotText) {
     }
 
     addCharacter();
+}
+
+function createChatbotErrorMessage(errorMessage){
+    const frame = document.querySelector('.faq-chatbot-messages-frame');
+    const container = document.querySelector('.message-waiting-response');
+
+    container.classList.remove('message-waiting-response');
+    container.querySelector('.chatbot-waiting-indicator').remove();
+
+    const message = document.createElement('div');
+    message.classList.add('faq-message', 'error-message');
+    message.textContent = errorMessage;
+    frame.appendChild(message)
 }
 
 function createUserMessage(userMessage){
@@ -415,7 +431,11 @@ function sendMessageController(e) {
 function falsoFetch() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            resolve("Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, doloremque iste ipsam distinctio vitae sint accusantium possimus dolore ipsa voluptates magnam minima aliquid atque quod, quia inventore repellendus saepe minus!");
+            if (Math.random() < 0.5) {
+                resolve('Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, doloremque iste ipsam distinctio vitae sint accusantium possimus dolore ipsa voluptates magnam minima aliquid atque quod, quia inventore repellendus saepe minus!');
+            } else {
+                reject(new Error('An Error ocurred. Please, try again later'));
+            }
         }, 2000);
     });
 }
