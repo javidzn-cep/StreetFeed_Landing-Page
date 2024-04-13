@@ -46,7 +46,6 @@
     margin: 0;
     font-family: 'Rubik', 'sans-serif';
     cursor: none;
-    user-select: none;
 }
 
 html{
@@ -64,6 +63,10 @@ body.scroll-block{
 a{
     color: inherit;
     text-decoration: none;
+}
+
+input, textarea{
+    border-radius: 0;
 }
 
 .btn{
@@ -612,7 +615,7 @@ a{
     right: 2vw;
     background-color: var(--background-color);
     border: 1px solid var(--website-color);
-    width: clamp(50px, 4vw, 100px);
+    width: clamp(50px, 4vw, 150px);
     border-radius: 50%;
     aspect-ratio: 1/1;
     pointer-events: all;
@@ -731,14 +734,6 @@ a{
     gap: 45px;
 }
 
-.search-box-suggestions-frame{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
 .search-geolocalitation-btn{
     display: flex;
     align-items: center;
@@ -782,9 +777,13 @@ a{
 }
 
 .search-box-suggestions-frame{
+    position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: start;
+    align-items: center;
     width: 100%;
+    height: 2%;
 }
 
 .search-box-suggestion-title{
@@ -835,6 +834,20 @@ a{
 
 .confirm-marker-btn, .place-marker-btn{
     width: 100%;
+}
+
+.num-homeless-input{
+    font-size: 1.2em;
+    text-align: end;
+    padding-right: 10px;
+}
+
+.num-homeless-input::placeholder{
+    text-align: start;
+}
+
+.place-marker-btn .nav-option-name{
+    font-size: 0.9em;
 }
 
 .map-pointer-container, #mapbox-map{
@@ -914,7 +927,6 @@ canvas{
 
 .modal-frame{
     width: 50vw;
-    height: 50vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -925,6 +937,8 @@ canvas{
     transition: 0.3s;
     padding: 50px;
     border-inline: 1px solid black;
+    font-size: clamp(15px, 1.1vw, 200px);
+    gap: 50px;
 }
 
 .modal-shown .modal-frame{
@@ -943,13 +957,14 @@ canvas{
 
 .modal-title{
     font-family: var(--font-secondary);
-    font-size: 50px;
+    font-size: 2.5em;
     font-weight: 900;
+    text-align: center;
 }
 
 .modal-subtitle{
     font-family: var(--font-secondary);
-    font-size: 20px;
+    font-size: 1em;
     width: 85%;
 }
 
@@ -959,8 +974,9 @@ canvas{
     margin-bottom: 20px;
 }
 
-.modal-location-container * {
+.modal-location-info{
     color: gray;
+    font-size: 0.8em;
 }
 
 .modal-location-container{
@@ -1217,6 +1233,7 @@ canvas{
     padding-inline: 50px;
     font-size: clamp(100px, 10vw, 200px);
     gap: 0.5em;
+    overflow: hidden;
 }
 
 .data-container{
@@ -1409,15 +1426,14 @@ canvas{
     position: absolute;
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: space-between;
     transform: translateX(100%);
     top: 25vh;
-    height: 60vh;
+    height: 70vh;
     width: 100%;
     padding-inline: 12%;
     overflow: hidden;
     transition: 0.5s;
-    gap: 100px;
 }
 
 .faq-chatbot-messages-frame{
@@ -1425,7 +1441,7 @@ canvas{
     flex-direction: column;
     justify-content: end;
     width: 100%;
-    height: 100%;
+    height: 45vh;
     overflow: auto;
 }
 
@@ -1435,7 +1451,11 @@ canvas{
     max-width: 60%;
     margin: 30px 10px;
     font-size: 0.9em;
+    white-space: pre-wrap;
+}
 
+.error-message{
+    width: 100% !important;
 }
 
 .user-message{
@@ -1477,8 +1497,22 @@ canvas{
     border-bottom: 1px solid white;
     padding: 5px 15px;
     width: 100%;
+    height: min-content;
+    min-height: 2em;
+    max-height: 6em;
     font-size: 18px;
     color: white;
+    resize: none;
+}
+
+.chatbot-text-input::placeholder{
+    text-align: bottom;
+}
+
+.chatbot-send-message-container{
+    display: flex;
+    align-items: end;
+    height: 100%;
 }
 
 .chatbot-send-message{
@@ -1490,7 +1524,17 @@ canvas{
     justify-content: center;
     color: white;
     padding: 5px 15px;
-    font-size: 18px;
+    font-size: 20px;
+}
+
+.chatbot-send-message-icon{
+    transition: 0s;
+}
+
+.message-invalid{
+    pointer-events: none;
+    color: rgb(70, 70, 70);
+    transition: 0.2s;
 }
 
 
@@ -1500,7 +1544,8 @@ canvas{
 
 .who-frame{
     position: relative;
-    height: 100vh;    
+    height: 100vh;
+    overflow: hidden;
 }
 
 .who-dev-info-container{
@@ -1771,14 +1816,17 @@ canvas{
         --separator-number-font-size: 100px;
     }
     
-    *{
+    * { 
         cursor: auto;
     }
     .cursor-hoverable{
         cursor: pointer;
     }
 
-    .navbar-container > * { margin-inline: 20px; }
+    .navbar-container > * {
+        margin-inline: 20px;
+    }
+
     .nav-options-container { display: none; }
     .nav-toggler-btn { display: flex; }
     .cursor-frame { display: none; }
@@ -1805,7 +1853,9 @@ canvas{
         width: calc(var(--header-title-font-size) * 2.4);
     }
 
-    .title-feed {left: 0; }
+    .title-feed {
+        left: 0; 
+    }
 
     .header-subtitle{
         text-align: end;
@@ -1849,42 +1899,52 @@ canvas{
         transform-origin: left;
         font-size: 37vw;
         transform: rotate(90deg) translateY(calc(-50% - (-1 * 37vw * var(--font-corporative-adjust-ratio-bottom))))
-    
     }
-    .faq-question-aswer-container{margin-block: 0.1vw;}
-    .faq-message{ max-width: 90%; }
+
+    .faq-question-aswer-container{
+        margin-block: 0.1vw;
+    }
+    
+    .faq-message{
+        max-width: 90%;
+    }
 
     .who-info-container{
         flex-direction: column;
         align-items: end;
     }
 
-
-
     .search-box-input-user-container{
-        top: 7%;
+        top: 6%;
     }
 
     .mapbox-map-container{
-        top: 15%;
+        top: 14%;
         left: 0;
         transform: none;
         width: 100vw;
         height: 30%;
     }
 
-    .map-markers-options-container{
-        top: 60%
+    .search-box-suggestions-container {
+        height: 21vh;
     }
+
+    .map-markers-options-container{
+        top: 46%;
+        bottom: unset;
+        translate: none;
+        gap: 30px;
+    }
+    
     .search-geolocalitation-icon{
         width: 30px;
     }
 
-
+    /* 
     .confirm-marker-btn{
         display: none;
-    }
-
+    } */
 
     .map-user-frame{
         width: 100vw;
@@ -1898,8 +1958,20 @@ canvas{
         border: none;
         transform: translateX(-50%);
     }
-    
 
+    .modal-frame{
+        width: 75vw;
+        height: auto;
+        padding: 20px;
+    }
+    
+    .modal-location-container{
+        display: none;
+    }
+    .modal-input-container{
+        width: 100%;
+        padding: 0;
+    }
 }
 
 
@@ -1913,7 +1985,18 @@ canvas{
     .movile-options-container { display: none; }
     .movile-options-container-bg { display: none; }
     .faq-message{ max-width: 70%; }
+    .modal-location-container{
+        display: none;
+    }
 
+    .modal-frame{
+        width: 65vw;
+    }
+
+    .modal-input-container{
+        width: 100%;
+        padding: 0;
+    }
 
 }
 

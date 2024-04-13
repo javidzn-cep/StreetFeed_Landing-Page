@@ -15,6 +15,8 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js'></script>
     <script src="./js/script.js"></script>
+    <script src="./js/markerMap.js"></script>
+    <script src="./js/chatbotAI.js"></script>
     <script src="./js/scrollAnimations.js"></script>
 </head>
 <body>
@@ -283,7 +285,7 @@
                         <div class="modal-location-info">Longitude: <span class="modal-location-longitude">2.050251</span></div>
                     </div>
                     <div class="modal-input-container">
-                        <input class="num-homeless-input" type="text" placeholder="Number of people...">
+                        <input class="num-homeless-input" type="text" inputmode="numeric" placeholder="Number of people...">
                         <button type="button" class="place-marker-btn nav-option-container nav-button-option cursor-hoverable" disabled>
                             <div class="option-overflow-window">
                                 <div class="nav-option-name-container">
@@ -444,7 +446,7 @@
         <div class="faq-img-container">
             <img class="faq-img" src="./media/FAQ_image.png" alt="FAQ Image" draggable="false">
         </div>
-        <div class="faq-content-container flex-center">
+        <div class="faq-content-container flex-center chatbot-active">
             <div class="faq-options-container flex-center">
                 <div class="faq-option-faq cursor-hoverable">FAQ</div>
                 <div class="faq-option-chatbot-container cursor-hoverable">
@@ -547,8 +549,12 @@
                     <div class="faq-message chatbot-message"><span class="faq-chatbot-text">Hello, I'm glad to answer the questions you have about <span translate="no">StreetFeed</span>!</span><span class="chatbot-waiting-indicator"></span></div>
                 </div>
                 <div class="faq-user-input">
-                    <input class="chatbot-text-input" type="textarea" placeholder="Message to StreetAI...">
-                    <button class="chatbot-send-message cursor-hoverable"><i class="fa-regular fa-paper-plane"></i></button>
+                    <textarea class="chatbot-text-input" type="textarea" placeholder="Message to StreetAI..."></textarea>
+                    <div class="chatbot-send-message-container">
+                        <button class="chatbot-send-message message-invalid cursor-hoverable">
+                            <i class="chatbot-send-message-icon fa-regular fa-paper-plane"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
