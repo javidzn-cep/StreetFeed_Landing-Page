@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.marker-map-frame').addEventListener('click', () => toggleMap({mapActive: false}));
     document.querySelector('.interactive-map-frame').addEventListener('click', e => e.stopPropagation());
     document.querySelector('.marker-map-icon-btn').addEventListener('click', e => toggleMap({e: e, mapActive: true}));
-    document.querySelector('.search-geolocalitation-btn').addEventListener('click', getGeolotitationCoords)
+    document.querySelector('.search-geolocalitation-btn').addEventListener('click', getGeolocationCoords)
     mapboxMap.on('dragstart', mapboxMapDragStartHandler)
     mapboxMap.on('moveend', mapboxMapMoveEndHandler);
     mapboxMap.on('pitch', mapboxMapPitchHandler);
@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initMapbox(){
     createMap();
+    geolocationIsAvailable();
     mapboxMapPitchHandler()
     mapboxMapZoomntHandler();
 }
@@ -161,13 +162,22 @@ function createSuggestion({name, city, province, country, lat, lng}) {
     return suggestionContainer;
 }
 
-function getGeolotitationCoords(e){
-    const target = e.currentTarget
-    navigator.geolocation.getCurrentPosition(
-        position => insertCoordinatesInMap(target, position.coords.longitude, position.coords.latitude), 
-        error => console.warn(`Error getting geolocation: ${error}`), 
-        {enableHighAccuracy: true}
-    );
+function geolocationIsAvailable(){
+    ('geolocation' in navigator) || document.querySelector('.search-geolocalitation-btn').classList.add('geolocation-not-available')
+}
+
+function getGeolocationCoords(e) {
+    const target = e.currentTarget;
+        navigator.geolocation.getCurrentPosition(
+            position => insertCoordinatesInMap(target, position.coords.longitude, position.coords.latitude),
+            error => {
+                if (error.code === error.PERMISSION_DENIED || true) {
+                    target.classList.add('geolocation-not-available')
+                }
+            },
+            { enableHighAccuracy: true }
+        );
+
 }
 
 function insertCoordinatesInMap(target, lng, lat){
@@ -199,7 +209,7 @@ function controlInputNumHomeless(e){
 
 function saveMarker(){
     const numPeople = Number(document.querySelector('.num-homeless-input').value);
-    const url = '';
+    const url = '../endpoints/placeMarker.json';
     const markerInfo = {
         lng: modalConfirmatedCenter.lng,
         lat: modalConfirmatedCenter.lat,

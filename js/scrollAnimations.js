@@ -1,15 +1,52 @@
+
+let videoAnimationIsActive, videoCurrentTimeTarget
+
 document.addEventListener('DOMContentLoaded', () => {
-    lineMaskAnimation();
-    roleExplainerAnimation();
-    setTimeout(faqImageParallaxEffect, 0);
-    navBarAnimation();
-    callToActionAnimation();
-    footerParalaxEffect();
-    showDataNumbersAnimationActivator();
+    initVariablesAnimations();
+    createAnimations();
+    createAnimatonActivators();
 });
 
+function initVariablesAnimations(){
+    videoCurrentTimeTarget = 0;
+    videoAnimationIsActive = false;
+}
+
+function createAnimations(){
+    navBarAnimation();
+    lineMaskAnimation();
+    roleExplainerAnimation();
+    footerParalaxEffect();
+    faqImageParallaxEffect();
+}
+
+function createAnimatonActivators(){
+    callToActionLoadingController();
+    showDataNumbersAnimationActivator();
+    rollbarActivator();
+    scrollDownActivator();
+}
+
+function navBarAnimation(){
+    const infoAnimation = [
+        { identifier: '.transparent-interface-needed', classToAdd: 'nav-transparent-mode', elements: [] },
+        { identifier: '.dark-interface-needed', classToAdd: 'nav-dark-mode',  elements: [] } ]
+    infoAnimation.forEach(info => info.elements = Array.from(document.querySelectorAll(info.identifier)))
+    infoAnimation.forEach(info => {
+        info.elements.forEach(element => {
+            ScrollTrigger.create({
+                trigger: `#${element.id}`,
+                start: 'top 75px',
+                end: 'bottom 75px',
+                toggleClass: { targets: '.navbar-frame', className: info.classToAdd },
+            });
+        });
+    });
+}
+
 function lineMaskAnimation(){
-    Array.from(document.querySelectorAll('.line-mask')).forEach(element => {
+    const lineMasks = document.querySelectorAll('.line-mask')
+    lineMasks.forEach(element => {
         gsap.to(`#${element.id}`, {
             scrollTrigger: {
                 trigger: `#${element.id}`,
@@ -20,7 +57,7 @@ function lineMaskAnimation(){
             width: 0,
         });
     });
-};
+}
 
 
 function roleExplainerAnimation(){
@@ -74,39 +111,13 @@ function roleExplainerAnimation(){
             },
             color: 'white'
         });
-    })
+    });
 };
 
-function navBarAnimation(){
-    gsap.to('.navbar-frame', {
-        scrollTrigger: {
-            trigger: '.role-explainer-frame',
-            start: 'top top', 
-            end: 'bottom 90%',
-            toggleClass: {targets: '.navbar-frame', className: 'nav-transparent-mode'},
-        },
-    });
-    gsap.to('.navbar-frame', {
-        scrollTrigger: {
-            trigger: '.faq-frame',
-            start: 'top 75px', 
-            end: 'bottom 75px',
-            toggleClass: {targets: '.navbar-frame', className: 'nav-dark-mode'},
-        },
-    });
-    gsap.to('.navbar-frame', {
-        scrollTrigger: {
-            trigger: '.footer',
-            start: 'top 75px', 
-            end: 'bottom 75px',
-            toggleClass: {targets: '.navbar-frame', className: 'nav-dark-mode'},
-        },
-    });
-}
-
 function faqImageParallaxEffect(){
-    const img = document.querySelector('.faq-img');
-    const frame = document.querySelector('.faq-frame');
+    document.querySelector('.faq-img').addEventListener('load', () => {
+        const imgRect = document.querySelector('.faq-img').getBoundingClientRect();
+        const frameRect = document.querySelector('.faq-frame').getBoundingClientRect();
         gsap.to('.faq-img', {
             scrollTrigger: {
                 trigger: '.faq-frame',
@@ -114,25 +125,61 @@ function faqImageParallaxEffect(){
                 end: 'bottom top',
                 scrub: 1,
             },
-            transform: `translateY(${img.offsetHeight - frame.offsetHeight}px)`
+            transform: `translateY(${imgRect.top - frameRect.top}px)`
         })
+    }, {once: true})
+
 }
 
+// function callToActionAnimation(){
+//     const isotypes = document.querySelectorAll('.call-to-action-isotype');
+//     isotypes.forEach((element, i) => {
+//         gsap.to(`#${element.id}`, {
+//             scrollTrigger: {
+//                 trigger: '.call-to-action-frame',
+//                 start: `${50 - (i * (50 / isotypes.length))}% bottom`,
+//                 end: '70% bottom',
+//                 scrub: 2,
+//             },
+//             x: '-50%',
+//             y: '-50%',
+//             scale: 1 + (i * (1.5 / isotypes.length))
+//         });
+//     });
+// }
+
+function callToActionLoadingController(){
+    const video = document.querySelector('.call-to-action-interactive-video');
+    video.duration ? initializeInteractiveVideoLoaded() : video.addEventListener('loadedmetadata', initializeInteractiveVideoLoaded, {once: true})
+}
+
+function initializeInteractiveVideoLoaded(){
+    callToActionAnimationActivator();
+    callToActionAnimation();
+}
+
+function callToActionAnimationActivator(){
+    ScrollTrigger.create({
+        trigger: '.call-to-action-frame',
+        start: 'top bottom',
+        end: 'bottom top',
+        onToggle: e =>  {
+            videoAnimationIsActive = e.isActive;
+            e.isActive && interactiveVideoMovement()
+        }
+    })
+}
 
 function callToActionAnimation(){
-    const isotypes = document.querySelectorAll('.call-to-action-isotype');
-    isotypes.forEach((element, i) => {
-        gsap.to(`#${element.id}`, {
-            scrollTrigger: {
-                trigger: '.call-to-action-frame',
-                start: `${50 - (i * (50 / isotypes.length))}% bottom`,
-                end: '70% bottom',
-                scrub: 2,
-            },
-            x: '-50%',
-            y: '-50%',
-            scale: 1 + (i * (1.5 / isotypes.length))
-        });
+    const video = document.querySelector('.call-to-action-interactive-video');
+    gsap.to('.call-to-action-interactive-video', {
+        scrollTrigger: {
+            trigger: '.call-to-action-frame',
+            start: '15% bottom',
+            end: '60% bottom',
+            scrub: true,
+            onUpdate: e => videoCurrentTimeTarget = video.duration * e.progress
+        }
     });
     gsap.to(`.call-to-action-text-container`, {
         scrollTrigger: {
@@ -155,45 +202,64 @@ function footerParalaxEffect(){
             scrub: true,
         },
         transform: 'translateY(0%)'
-    })
+    });
 }
 
 function showDataNumbersAnimationActivator() {
-    const numbers = document.querySelectorAll('.data-container');
-    numbers.forEach(element => {
-        gsap.to(`#${element.id}`, {
-            scrollTrigger: {
-                trigger: `#${element.id}`,
-                toggleActions: 'play none none none',
-                start: '50% bottom',
-                end: '50% bottom',
-                once: true
-            },
-            onUpdate: () => {
-                element.classList.add('data-container-shown');
-                showDataNumbersAnimation();
-            }
-        })
+    const numberContainers = document.querySelectorAll('.data-container');
+    numberContainers.forEach(element => {
+        ScrollTrigger.create({
+            trigger: `#${element.id}`,
+            start: 'top 95%',
+            end: 'top 95%',
+            once: true,
+            toggleClass : 'data-container-shown',
+            onEnter: () => showDataNumbersAnimation(element.querySelector('.data-number'))
+        });
+    });
+}
+
+function rollbarActivator(){
+    ScrollTrigger.create({
+        trigger: '.rollbar-container',
+        start: 'top bottom',
+        end: 'bottom top', 
+        onToggle: e => {
+            rollbarIsInViewPort = e.isActive;
+            e.isActive && moveRollBar();
+        }
     })
 }
 
-function showDataNumbersAnimation() {
-    const numbers = document.querySelectorAll('.data-number');
-    const changes = 1500;
-    let animationFinished = false
-    numbers.forEach(number => {
-        let currentNumberFloat = parseFloat(number.dataset.currentNumberFloat);
-        let objectiveNumber = parseFloat(number.dataset.objectiveNumber);
-        let difference = objectiveNumber - currentNumberFloat;
-        let step = difference / changes;
-        if (Math.abs(difference) < 1) {
-            number.textContent = objectiveNumber;
-            animationFinished = true
-        } else {
-            currentNumberFloat += step;
-            number.dataset.currentNumberFloat = currentNumberFloat;
-            number.textContent = currentNumberFloat.toFixed(0);
+function scrollDownActivator(){
+    ScrollTrigger.create({
+        trigger: '.scroll-down-container ',
+        start: 'top bottom',
+        end: 'bottom top', 
+        onToggle: e => {
+            scrollDownIconisInViewPort = e.isActive;
+            e.isActive && moveScrollDownIcon()
         }
-    });
-    requestAnimationFrame(showDataNumbersAnimation);
+    })
+}
+
+function showDataNumbersAnimation(number) {
+    const durationMs = 1000 + ( Math.random() * 2500 );
+    const changes = 150;
+    const objectiveNumber = Number(number.dataset.objectiveNumber);
+    let currentNumber = 0
+
+    function changeNumber() {
+        currentNumber += objectiveNumber / changes;
+        number.textContent = Math.round(currentNumber);
+        currentNumber < objectiveNumber ? setTimeout(changeNumber, durationMs / changes) : number.textContent = objectiveNumber;
+    }
+    changeNumber();
+
+}
+
+function interactiveVideoMovement(){
+    const video = document.querySelector('.call-to-action-interactive-video');
+    video.currentTime = lowPassFilter(videoCurrentTimeTarget, video.currentTime, 0.4);
+    videoAnimationIsActive && video.addEventListener('canplay', interactiveVideoMovement, {once: true})
 }

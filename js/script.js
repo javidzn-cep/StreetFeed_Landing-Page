@@ -13,7 +13,8 @@ const
     lowPassFilter = (newValue, prevValue, alpha) => alpha * newValue + (1 - alpha) * prevValue,
     updateMouseMove = e => [cursorX, cursorY] = [e.clientX, e.clientY];
 
-let cursorX, cursorY, rollBarTransaltePerc, cursorRollBarTransaltePerc, currentMaskSize, maskSizeIsHovering
+let cursorX, cursorY, rollBarTransaltePerc, cursorRollBarTransaltePerc, currentMaskSize, 
+maskSizeIsHovering, cursorHoveringContactMe, rollbarIsInViewPort, scrollDownIconisInViewPort
         
 document.addEventListener('DOMContentLoaded',   () => {
     initVariables();
@@ -24,15 +25,75 @@ document.addEventListener('DOMContentLoaded',   () => {
     document.addEventListener('mousemove', updateMouseMove);
     document.addEventListener('scroll', updateScrollBar);
     Array.from(document.querySelectorAll('.cursor-hoverable')).forEach(element => [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => element.addEventListener(obj.event, () => document.querySelector('.cursor-frame').classList.toggle('cursor-hover', obj.isHovering))));
-    Array.from(document.querySelectorAll('.mask-activator')).forEach(element => [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => element.addEventListener(obj.event, () => maskSizeIsHovering = obj.isHovering)));
+    Array.from(document.querySelectorAll('.mask-activator')).forEach(element => [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => element.addEventListener(obj.event, () => maskedContainerActivator(obj.isHovering))));
     Array.from(document.querySelectorAll('.who-dev-name-container')).forEach(element => element.addEventListener('click', e => {!e.currentTarget.classList.contains('dev-shown') && changeDeveloperInfo(e)}));
     Array.from(document.querySelectorAll('.faq-question-aswer-container')).forEach(question => question.addEventListener('click', openFaqQuestion));
     Array.from(document.querySelectorAll('.movile-nav-landing-part-container')).forEach(element => element.addEventListener('click', () => document.querySelector('.navbar-frame').classList.remove('movile-nav-shown')));
-    [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => document.querySelector('.who-img-frame').addEventListener(obj.event, () => document.querySelector('.cursor-frame').classList.toggle('cursor-hovering-contact-me', obj.isHovering)));
+    [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => document.querySelector('.who-img-frame').addEventListener(obj.event, () => contactmeCursorActivator(obj.isHovering)));
     document.querySelector('.faq-option-faq').addEventListener('click', () => document.querySelector('.faq-content-container').classList.remove('chatbot-active'))
     document.querySelector('.nav-toggler-btn').addEventListener('click', toggleMovileNavContainer);
     document.querySelector('.faq-option-chatbot-container').addEventListener('click', openChatBotFrame);
 });
+
+
+function contactmeCursorActivator(isActive){
+    document.querySelector('.cursor-frame').classList.toggle('cursor-hovering-contact-me', isActive)
+    if (isActive){
+        cursorHoveringContactMe = true;
+        moveCursorRollbar();
+    } else {
+        document.querySelector('.contact-me-cursor').addEventListener('transitionend', () => cursorHoveringContactMe = false, {once: true})
+    }
+}
+
+function maskedContainerActivator(isActive){
+    if (isActive){
+        maskSizeIsHovering = true;
+        resizeMaskSize();
+    } else {
+         maskSizeIsHovering = false;
+    }
+}
+
+
+async function getDataNumbersfromDB() {
+    return Promise.all([
+        getDataDelivirys(),
+        getDataProviders()])
+        .then(data => {
+            const [deliveries, providers] =  data;
+            document.getElementById('data-providers').dataset.objectiveNumber = providers;
+            document.getElementById('data-kg-food').dataset.objectiveNumber = (deliveries * 0.33).toFixed(0);
+            document.getElementById('data-deliverys').dataset.objectiveNumber = deliveries;
+            Array.from(document.querySelectorAll('.data-container')).forEach(element => element.classList.contains('data-container-shown') && showDataNumbersAnimation(element.querySelector('.data-number')))
+        })
+        .catch(error => {
+            document.querySelector('.data-number-frame').classList.add('error-fetching')
+            console.warn(`Failed to Fetch into DB: ${error}`);
+        });
+}
+
+function getDataDelivirys() {
+    return new Promise ((resolve, reject) => {
+        setTimeout(() => {
+            fetch('../endpoints/getDeliverys.json')
+            .then(response => response.json())
+            .then(data => resolve(data[0].deliverys))
+            .catch(error => reject(error));
+        }, 20)
+    });
+}
+
+function getDataProviders() {
+    return new Promise ((resolve, reject) => {
+        setTimeout(() => {
+            fetch('../endpoints/getProviders.json')
+            .then(response => response.json())
+            .then(data => resolve(data[0].providers))
+            .catch(error => reject(error));
+        }, 20)
+    });
+}
 
 
 function openChatBotFrame(){
@@ -43,12 +104,10 @@ function openChatBotFrame(){
 function initVariables(){
     cursorX = cursorY = rollBarTransaltePerc = cursorRollBarTransaltePerc = currentScrollY = targetScrollY = movingMapFrameDiference = 0;
     currentMaskSize = Number(window.getComputedStyle(document.querySelector('.masked-container')).getPropertyValue('mask-size').replace(/\D/g, ''));
-    maskSizeIsHovering = movingMapFrame = false;
+    maskSizeIsHovering = movingMapFrame = cursorHoveringContactMe = rollbarIsInViewPort = scrollDownIconisInViewPort = false;
     moveCursor();
-    moveRollBar();
     moveScrollDownIcon();
-    updateScrollBar();
-    resizeMaskSize()
+    getDataNumbersfromDB();
 }
 
 function setEntranceAnimation(){
@@ -70,7 +129,8 @@ function landingPageIn(){
 function toggleMovileNavContainer(){
     const navBarFrame = document.querySelector('.navbar-frame');
     const containerIsShown = navBarFrame.classList.contains('movile-nav-shown');
-    navBarFrame.classList.toggle('movile-nav-shown');
+    navBarFrame.classList.toggle('movile-nav-shown', !containerIsShown);
+    document.body.classList.toggle('scroll-block', !containerIsShown)
 
     //  ...
 }
@@ -91,10 +151,14 @@ function moveCursor(){
 
 function moveRollBar(){
     rollBarTransaltePerc = (rollBarTransaltePerc - 0.1) % 100
-    cursorRollBarTransaltePerc = (cursorRollBarTransaltePerc - 0.2) % 100
     Array.from(document.querySelectorAll('.rollbar-item-container')).map(rollbarItem => rollbarItem.style.transform = `translateX(${rollBarTransaltePerc}%)`);
+    rollbarIsInViewPort && requestAnimationFrame(moveRollBar)
+}
+
+function moveCursorRollbar(){
+    cursorRollBarTransaltePerc = (cursorRollBarTransaltePerc - 0.2) % 100
     Array.from(document.querySelectorAll('.contact-me-rollbar-container')).map(rollbarItem => rollbarItem.style.transform = `translateX(${cursorRollBarTransaltePerc}%)`)
-    requestAnimationFrame(moveRollBar)
+    cursorHoveringContactMe && requestAnimationFrame(moveCursorRollbar)
 }
 
 function moveScrollDownIcon(){
@@ -107,7 +171,7 @@ function moveScrollDownIcon(){
     const ratioInner = 0.02;
     outerCircle.style.transform = `translate(${(-outerCircleRect.width / 2) + ((cursorRect.left - outerCircleRect.left) * ratioOuter)}px, ${(-outerCircleRect.height / 2) + ((cursorRect.top - outerCircleRect.top) * ratioOuter)}px)`;
     innerCircle.style.transform = `translate(${(-innerCircleRect.width / 2) + ((cursorRect.left - innerCircleRect.left) * ratioInner)}px, ${(-innerCircleRect.width / 2) + ((cursorRect.top - innerCircleRect.top) * ratioInner)}px)`;
-    requestAnimationFrame(moveScrollDownIcon)
+    scrollDownIconisInViewPort && requestAnimationFrame(moveScrollDownIcon)
 }
 
 function updateScrollBar() {
@@ -121,13 +185,13 @@ function openFaqQuestion(e){
 }
 
 function resizeMaskSize(){
-    const maskedContainer = document.querySelector('.masked-container')
+    const maskedContainer = document.querySelector('.masked-container');
     const grownSize = 250;
     const normalSize = 0;
     currentMaskSize = lowPassFilter(maskSizeIsHovering ? grownSize : normalSize, currentMaskSize, 0.2);
     document.querySelector('.cursor').style.opacity = maskSizeIsHovering ? 0: 1;
-    maskedContainer.style.maskSize = `${Math.max(currentMaskSize)}px`;
-    requestAnimationFrame(resizeMaskSize)
+    maskedContainer.style.maskSize = `${currentMaskSize}px`
+    currentMaskSize > 0.1 ? requestAnimationFrame(resizeMaskSize) : maskedContainer.style.maskSize = normalSize;
 }
 
 function changeDeveloperInfo(e){
@@ -138,6 +202,7 @@ function changeDeveloperInfo(e){
     document.querySelector(`.${chosenDevInfo.imgClassNanme}`).classList.add('dev-img-shown');
     document.querySelector('.who-img-frame').href = chosenDevInfo.contactURL
     Array.from(document.querySelectorAll('.who-dev-info')).forEach(info => {
+        info.classList.remove('changing-dev-info');
         info.classList.add('changing-dev-info');
         info.addEventListener('transitionend', () => {
             info.textContent = info.classList.contains('who-full-name') ? chosenDevInfo.fullname.toUpperCase() : chosenDevInfo.workDescription.toUpperCase();

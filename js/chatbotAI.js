@@ -97,14 +97,13 @@ function createChatbotErrorMessage(errorMessage){
 }
 
 function chatbotWritingAnimation(chatbotText) {
-    const container = document.querySelector('.message-waiting-response');
-    const tetxSpan = container.querySelector('.faq-chatbot-text');
+    const textSpan = document.querySelector('.message-waiting-response .faq-chatbot-text');
     let i = 0;
 
     function addCharacter() {
         if (chatIsResponding){
             if (i < chatbotText.length) {
-                tetxSpan.textContent += chatbotText.charAt(i++);
+                textSpan.textContent += chatbotText.charAt(i++);
                 setTimeout(addCharacter, Math.round(Math.random()* 20 ));
             } else{
                 setFinalChatbotConversation()
@@ -125,7 +124,7 @@ function setFinalChatbotConversation(){
 function requestAiTimeOutController(userMessage){
     return new Promise((resolve, reject) => {
         timeOutID = setTimeout(() => reject(new Error('The waiting time has been exceeded. Try again later')), maxWaitingTime)
-        falsoFetch(userMessage).
+        requestAIResponse(userMessage).
         then(response => {
             clearTimeout(timeOutID)
             resolve(response);
@@ -134,15 +133,19 @@ function requestAiTimeOutController(userMessage){
     });
 }
 
-function falsoFetch(userMessage) {
-    console.log(userMessage)
+function requestAIResponse(userMessage) {
+    const url = '../endpoints/openAi.json'
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(userMessage)
+    }
     return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            if (Math.random() < 0.5) {
-                resolve('Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, doloremque iste ipsam distinctio vitae sint accusantium possimus dolore ipsa voluptates magnam minima aliquid atque quod, quia inventore repellendus saepe minus!');
-            } else {
-                reject(new Error('An Error ocurred. Please, try again later'));
-            }
-        }, Math.random() * maxWaitingTime * 1.5);
+        setTimeout(()=> {
+            fetch(url)
+            .then(response => response.json())
+            .then(data => resolve(data[0].text))
+            .catch(_ => reject(new Error('An Error ocurred. Please, try again later')))
+        }, Math.random() * maxWaitingTime * 1.5)
     });
 }
