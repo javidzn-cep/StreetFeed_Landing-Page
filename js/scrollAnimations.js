@@ -1,4 +1,5 @@
 
+const percRoleTransition = 9;
 let videoAnimationIsActive, videoCurrentTimeTarget
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,6 +17,10 @@ function createAnimations(){
     navBarAnimation();
     lineMaskAnimation();
     roleExplainerAnimation();
+    roleHigligthText();
+    roleImagesMovement();
+    roleTitleTextMovement();
+    mapButtonHigthter();
     footerParalaxEffect();
     faqImageParallaxEffect();
 }
@@ -61,7 +66,6 @@ function lineMaskAnimation(){
 
 
 function roleExplainerAnimation(){
-    const highlightTexts = document.querySelectorAll('.role-text-highlight');
     gsap.to('.role-explainer-container-overflow', {
         scrollTrigger: {
             trigger: '.role-explainer-frame', 
@@ -86,15 +90,19 @@ function roleExplainerAnimation(){
         height: '100vh',
         width: '100vw'
     });
+};
+
+function roleHigligthText(){
+    const highlightTexts = document.querySelectorAll('.role-text-highlight');
     highlightTexts.forEach((element, i) => {
-        const entraceStart = i * (90 / (highlightTexts.length + 1));
-        const entranceLeave = entraceStart + 10;
-        const leaveStart = (i+1) * (90 / (highlightTexts.length + 1));
-        const leaveLeave = (i+1) * (90 / (highlightTexts.length + 1)) + 10;
+        const entranceStart = i * (100 / (highlightTexts.length + 1));
+        const entranceLeave = entranceStart + percRoleTransition;
+        const leaveStart = (i+1) * (100 / (highlightTexts.length + 1));
+        const leaveLeave = (i+1) * (100 / (highlightTexts.length + 1)) + percRoleTransition;
         gsap.to(`#${element.id}`, {
             scrollTrigger: {
                 trigger: '.role-explainer-frame',
-                start: `${entraceStart}% top`,
+                start: `${entranceStart}% top`,
                 end: `${entranceLeave}% top`,
                 scrub: true,
                 onLeave: () => {
@@ -112,7 +120,80 @@ function roleExplainerAnimation(){
             color: 'white'
         });
     });
-};
+}
+
+function roleTitleTextMovement() {
+    const names = document.querySelectorAll('.role-name');
+    gsap.to('.role-name-container', {
+        scrollTrigger: {
+            trigger: '.role-explainer-frame',
+            start: `${(100 / (names.length + 1))}% top`,
+            end: `${(100 / (names.length + 1)) + percRoleTransition}% top`,
+            scrub: true,
+            onLeave: () => {
+                gsap.to('.role-name-container', {
+                    scrollTrigger: {
+                        trigger: '.role-explainer-frame',
+                        start: `${ 2 * (100 / (names.length + 1))}% top`,
+                        end: `${ 2 * (100 / (names.length + 1)) + percRoleTransition}% top`,
+                        scrub: true,
+                    },
+                    transform: `translateY(${-(100 / names.length) * 2}%)`
+                });
+            }
+        },
+        transform: `translateY(${-(100 / names.length) * 1}%)`
+    });
+}
+
+function roleImagesMovement(){
+    const images = document.querySelectorAll('.role-img-container');
+    images.forEach((element, i) => {
+            const entranceStart = i * (100 / (images.length + 1));
+            const entranceLeave = entranceStart + percRoleTransition;            
+            gsap.to(`#${element.id}`, {
+                scrollTrigger: {
+                    trigger: '.role-explainer-frame',
+                    start: `${entranceStart}% top`,
+                    end: `${entranceLeave}% top`,
+                    scrub: 0.5,
+                },
+                top: 0,
+                width: '100vw',
+                height: '100vh',
+            });
+    });
+}
+
+function mapButtonHigthter(){
+    const highlightTexts = document.querySelectorAll('.role-text-highlight');
+    highlightTexts.forEach(_ => {
+        const entranceStart = 2 * (100 / (highlightTexts.length + 1));
+        const entranceLeave = entranceStart + percRoleTransition;
+        const leaveStart = 3 * (100 / (highlightTexts.length + 1));
+        const leaveLeave = 3 * (100 / (highlightTexts.length + 1)) + percRoleTransition;
+        gsap.to('.marker-map-icon-hihglighter', {
+            scrollTrigger: {
+                trigger: '.role-explainer-frame',
+                start: `${entranceStart}% top`,
+                end: `${entranceLeave}% top`,
+                scrub: true,
+                onLeave: () => {
+                    gsap.to('.marker-map-icon-hihglighter', {
+                        scrollTrigger: {
+                            trigger: '.role-explainer-frame',
+                            start: `${leaveStart}% top`,
+                            end: `${leaveLeave}% top`,
+                            scrub: true,
+                        },
+                        opacity: 0
+                    });
+                }
+            },
+            opacity: 1
+        });
+    });
+}
 
 function faqImageParallaxEffect(){
     document.querySelector('.faq-img').addEventListener('load', () => {
@@ -123,7 +204,7 @@ function faqImageParallaxEffect(){
                 trigger: '.faq-frame',
                 start: 'top bottom',
                 end: 'bottom top',
-                scrub: 1,
+                scrub: true,
             },
             transform: `translateY(${imgRect.top - frameRect.top}px)`
         })
@@ -176,7 +257,7 @@ function callToActionAnimation(){
         scrollTrigger: {
             trigger: '.call-to-action-frame',
             start: '15% bottom',
-            end: '60% bottom',
+            end: '70% bottom',
             scrub: true,
             onUpdate: e => videoCurrentTimeTarget = video.duration * e.progress
         }

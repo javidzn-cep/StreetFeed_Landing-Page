@@ -16,7 +16,7 @@
     <script src='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js'></script>
     <script src="./js/script.js"></script>
     <script src="./js/markerMap.js"></script>
-    <script src="./js/chatbotAI.js"></script>
+    <script src="./js/streetAI.js"></script>
     <script src="./js/scrollAnimations.js"></script>
 </head>
 <body>
@@ -43,7 +43,7 @@
         <div class="scrollbar-rail"></div>
         <div class="scrollbar-thumb"></div>
     </div>
-    <!-- <div class="entrance-scene">
+    <div class="entrance-scene">
         <div class="entrance-curtine"></div>
         <div class="entrance-curtine"></div>
         <div class="entrance-curtine"></div>
@@ -61,7 +61,7 @@
                 C450.7,440,451.8,440.7,452.9,441.5z M141,441.5c87.4-57,112-174,55-261.4c-0.7-1.1-1.5-2.3-2.2-3.4c-87.4,57-112,174-55,261.4
                 C139.5,439.2,140.2,440.3,141,441.5z"/>
         </svg>
-    </div>   -->
+    </div>  
     <div class="navbar-frame">
         <div class="navbar-container">
             <a class="abr-nav-logotype flex-center cursor-hoverable" href="#" translate="no">STFD</a>
@@ -171,16 +171,19 @@
         </a>
     </div>
     <div class="marker-map-frame">
-        <div class="marker-map-icon-btn cursor-hoverable flex-center">
-            <svg class="marker-map-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
-                <path d="M65.23,61.76c-2.65,12.35-9.61,21.16-17.77,21.16-10.45,0-18.93-14.44-18.93-32.26s8.48-32.26,18.93-32.26" />
-                <path d="M47.46,44.78v38.14c14.05,0,26.03-8.73,30.67-20.99" />
-                <line x1="16.86" y1="62.03" x2="78.05" y2="62.03" />
-                <line x1="48.86" y1="39.28" x2="16.87" y2="39.28" />
-                <path d="M65.25,13.08c-8.85,0-16.01,7.07-16.01,15.78s16.01,22.18,16.01,22.18c0,0,16.01-13.46,16.01-22.18s-7.16-15.78-16.01-15.78Zm0,23.62c-4.39,0-7.96-3.51-7.96-7.84s3.56-7.83,7.96-7.83,7.94,3.51,7.94,7.83-3.55,7.84-7.94,7.84Z" />
-                <path d="M65.25,36.7c-4.39,0-7.96-3.51-7.96-7.84s3.56-7.83,7.96-7.83,7.94,3.51,7.94,7.83-3.55,7.84-7.94,7.84Z" />
-                <path d="M80.18,50.66c0,17.82-14.66,32.26-32.72,32.26S14.74,68.48,14.74,50.66,29.39,18.4,47.46,18.4" />
-            </svg>
+        <div class="marker-map-container">
+            <div class="marker-map-icon-hihglighter"></div>
+            <div class="marker-map-icon-btn cursor-hoverable flex-center">
+                <svg class="marker-map-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
+                    <path d="M65.23,61.76c-2.65,12.35-9.61,21.16-17.77,21.16-10.45,0-18.93-14.44-18.93-32.26s8.48-32.26,18.93-32.26" />
+                    <path d="M47.46,44.78v38.14c14.05,0,26.03-8.73,30.67-20.99" />
+                    <line x1="16.86" y1="62.03" x2="78.05" y2="62.03" />
+                    <line x1="48.86" y1="39.28" x2="16.87" y2="39.28" />
+                    <path d="M65.25,13.08c-8.85,0-16.01,7.07-16.01,15.78s16.01,22.18,16.01,22.18c0,0,16.01-13.46,16.01-22.18s-7.16-15.78-16.01-15.78Zm0,23.62c-4.39,0-7.96-3.51-7.96-7.84s3.56-7.83,7.96-7.83,7.94,3.51,7.94,7.83-3.55,7.84-7.94,7.84Z" />
+                    <path d="M65.25,36.7c-4.39,0-7.96-3.51-7.96-7.84s3.56-7.83,7.96-7.83,7.94,3.51,7.94,7.83-3.55,7.84-7.94,7.84Z" />
+                    <path d="M80.18,50.66c0,17.82-14.66,32.26-32.72,32.26S14.74,68.48,14.74,50.66,29.39,18.4,47.46,18.4" />
+                </svg>
+            </div>
         </div>
         <div class="interactive-map-frame">
             <div class="interactive-map-content-frame">
@@ -412,11 +415,25 @@
     <div id="role-explainer-frame" class="role-explainer-frame transparent-interface-needed">
         <div class="role-explainer-container-overflow">
             <div class="role-explainer-container">
-                <div class="role-img-container flex-center">
-                    <img class="role-img" src="./media/rider-role-img.png" alt="Rider Role Photo" draggable="false">
+                <div class="role-img-frame">
+                    <div id="role-img-rider" class="role-img-container flex-center">
+                        <img class="role-img" src="./media/rider-role-img.png" alt="Rider Role Photo" draggable="false">
+                    </div>
+                    <div id="role-img-provider" class="role-img-container flex-center">
+                        <img class="role-img" src="./media/provider-role-img.png" alt="Provider Role Photo" draggable="false">
+                    </div>
+                    <div id="role-img-mapping-helper" class="role-img-container flex-center">
+                        <img class="role-img" src="./media/mapping-helper-role-img.png" alt="Maping Helper Role Photo" draggable="false">
+                    </div>
                 </div>
-                <div class="role-name">RIDER</div>
-                <div class="role-description-text">We offer you three essential roles to participate in our mission. <span id="role-text-rider" class="role-text-highlight">As a rider, your task will be to pick up and deliver food packages to those who need them most.</span><span id="role-text-provider" class="role-text-highlight"> If you prefer to contribute from your business or home, you can become a provider, offering surplus food that will be distributed by our riders.</span> Additionally, if you want to help but don't want to register, <span id="role-text-notregistered" class="role-text-highlight">you can assist as a mapping helper, marking homeless individuals on our interactive map to facilitate riders' access to these locations.</span> And the best part is that you can play all these roles if you wish!
+                <div class="role-name-frame-overflow">
+                    <div class="role-name-container">
+                        <div id="role-name-rider" class="role-name">RIDER</div>
+                        <div id="role-name-provider" class="role-name">PROVIDER</div>
+                        <div id="role-name-mapping-helper" class="role-name">MAPPER</div>
+                    </div>
+                </div>
+                <div class="role-description-text">We offer you three essential roles to participate in our mission. <span id="role-text-rider" class="role-text-highlight">As a rider, your task will be to pick up and deliver food packages to those who need them most.</span><span id="role-text-provider" class="role-text-highlight"> If you prefer to contribute from your business or home, you can become a provider, offering surplus food that will be distributed by our riders.</span> Additionally, if you want to help but don't want to register, <span id="role-text-notregistered" class="role-text-highlight">you can assist as a mapping helper, marking homeless individuals on our interactive map, by clicking in the icon below, to facilitate riders' access to these locations.</span> And the best part is that you can play all these roles if you wish!
                 </div>
             </div>
         </div>

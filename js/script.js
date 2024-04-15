@@ -19,9 +19,9 @@ maskSizeIsHovering, cursorHoveringContactMe, rollbarIsInViewPort, scrollDownIcon
 document.addEventListener('DOMContentLoaded',   () => {
     initVariables();
     sendConsoleLogMessage();
-    // setEntranceAnimation();
-    // document.querySelector('.entrance-isotype').addEventListener('transitionend', setEntranceAnimation);
-    // document.querySelector('.entrance-curtine').addEventListener('transitionend', landingPageIn);
+    setEntranceAnimation();
+    document.querySelector('.entrance-isotype').addEventListener('transitionend', setEntranceAnimation);
+    document.querySelector('.entrance-curtine').addEventListener('transitionend', landingPageIn);
     document.addEventListener('mousemove', updateMouseMove);
     document.addEventListener('scroll', updateScrollBar);
     Array.from(document.querySelectorAll('.cursor-hoverable')).forEach(element => [{event: 'mouseenter', isHovering: true}, {event: 'mouseleave', isHovering: false}].forEach(obj => element.addEventListener(obj.event, () => document.querySelector('.cursor-frame').classList.toggle('cursor-hover', obj.isHovering))));
@@ -188,7 +188,7 @@ function resizeMaskSize(){
     const maskedContainer = document.querySelector('.masked-container');
     const grownSize = 250;
     const normalSize = 0;
-    currentMaskSize = lowPassFilter(maskSizeIsHovering ? grownSize : normalSize, currentMaskSize, 0.2);
+    currentMaskSize = lowPassFilter(maskSizeIsHovering ? grownSize : normalSize, currentMaskSize, 0.15);
     document.querySelector('.cursor').style.opacity = maskSizeIsHovering ? 0: 1;
     maskedContainer.style.maskSize = `${currentMaskSize}px`
     currentMaskSize > 0.1 ? requestAnimationFrame(resizeMaskSize) : maskedContainer.style.maskSize = normalSize;
