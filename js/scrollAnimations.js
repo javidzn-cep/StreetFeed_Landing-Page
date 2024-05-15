@@ -23,10 +23,11 @@ function createAnimations(){
     mapButtonHigthter();
     footerParalaxEffect();
     faqImageParallaxEffect();
+    callToActionAnimation();
 }
 
 function createAnimatonActivators(){
-    callToActionLoadingController();
+    // callToActionLoadingController();
     showDataNumbersAnimationActivator();
     rollbarActivator();
     scrollDownActivator();
@@ -212,55 +213,21 @@ function faqImageParallaxEffect(){
 
 }
 
-// function callToActionAnimation(){
-//     const isotypes = document.querySelectorAll('.call-to-action-isotype');
-//     isotypes.forEach((element, i) => {
-//         gsap.to(`#${element.id}`, {
-//             scrollTrigger: {
-//                 trigger: '.call-to-action-frame',
-//                 start: `${50 - (i * (50 / isotypes.length))}% bottom`,
-//                 end: '70% bottom',
-//                 scrub: 2,
-//             },
-//             x: '-50%',
-//             y: '-50%',
-//             scale: 1 + (i * (1.5 / isotypes.length))
-//         });
-//     });
-// }
-
-function callToActionLoadingController(){
-    const video = document.querySelector('.call-to-action-interactive-video');
-    video.duration ? initializeInteractiveVideoLoaded() : video.addEventListener('loadedmetadata', initializeInteractiveVideoLoaded, {once: true})
-}
-
-function initializeInteractiveVideoLoaded(){
-    callToActionAnimationActivator();
-    callToActionAnimation();
-}
-
-function callToActionAnimationActivator(){
-    ScrollTrigger.create({
-        trigger: '.call-to-action-frame',
-        start: 'top bottom',
-        end: 'bottom top',
-        onToggle: e =>  {
-            videoAnimationIsActive = e.isActive;
-            e.isActive && interactiveVideoMovement()
-        }
-    })
-}
-
 function callToActionAnimation(){
-    const video = document.querySelector('.call-to-action-interactive-video');
-    gsap.to('.call-to-action-interactive-video', {
-        scrollTrigger: {
-            trigger: '.call-to-action-frame',
-            start: '15% bottom',
-            end: '70% bottom',
-            scrub: true,
-            onUpdate: e => videoCurrentTimeTarget = video.duration * e.progress
-        }
+    const isotypes = document.querySelectorAll('.call-to-action-isotype');
+    isotypes.forEach((element, i) => {
+        gsap.to(`#${element.id}`, {
+            scrollTrigger: {
+                trigger: '.call-to-action-frame',
+                start: `${50 - (i * (50 / isotypes.length))}% bottom`,
+                end: '70% bottom',
+                scrub: 2,
+            },
+            x: '-50%',
+            y: '-50%',
+            scale: 1 + (i * (1.5 / isotypes.length))
+        });
+
     });
     gsap.to(`.call-to-action-text-container`, {
         scrollTrigger: {
@@ -273,6 +240,51 @@ function callToActionAnimation(){
         scale: 1.5
     });
 }
+
+// function callToActionLoadingController(){
+//     const video = document.querySelector('.call-to-action-interactive-video');
+//     video.duration ? initializeInteractiveVideoLoaded() : video.addEventListener('loadedmetadata', initializeInteractiveVideoLoaded, {once: true})
+// }
+
+// function initializeInteractiveVideoLoaded(){
+//     callToActionAnimationActivator();
+//     callToActionAnimation();
+// }
+
+// function callToActionAnimationActivator(){
+//     ScrollTrigger.create({
+//         trigger: '.call-to-action-frame',
+//         start: 'top bottom',
+//         end: 'bottom top',
+//         onToggle: e =>  {
+//             videoAnimationIsActive = e.isActive;
+//             e.isActive && interactiveVideoMovement()
+//         }
+//     })
+// }
+
+// function callToActionAnimation(){
+//     const video = document.querySelector('.call-to-action-interactive-video');
+//     gsap.to('.call-to-action-interactive-video', {
+//         scrollTrigger: {
+//             trigger: '.call-to-action-frame',
+//             start: '15% bottom',
+//             end: '70% bottom',
+//             scrub: true,
+//             onUpdate: e => videoCurrentTimeTarget = video.duration * e.progress
+//         }
+//     });
+//     gsap.to(`.call-to-action-text-container`, {
+//         scrollTrigger: {
+//             trigger: '.call-to-action-frame',
+//             start: '55% 100%',
+//             end: '70% 80%',
+//             scrub: 2,
+//         },
+//         opacity: 1,
+//         scale: 1.5
+//     });
+// }
 
 function footerParalaxEffect(){
     gsap.to('.footer', {
@@ -336,11 +348,10 @@ function showDataNumbersAnimation(number) {
         currentNumber < objectiveNumber ? setTimeout(changeNumber, durationMs / changes) : number.textContent = objectiveNumber;
     }
     changeNumber();
-
 }
 
-function interactiveVideoMovement(){
-    const video = document.querySelector('.call-to-action-interactive-video');
-    video.currentTime = lowPassFilter(videoCurrentTimeTarget, video.currentTime, 0.4);
-    videoAnimationIsActive && video.addEventListener('canplay', interactiveVideoMovement, {once: true})
-}
+// function interactiveVideoMovement(){
+//     const video = document.querySelector('.call-to-action-interactive-video');
+//     video.currentTime = lowPassFilter(videoCurrentTimeTarget, video.currentTime, 0.4);
+//     videoAnimationIsActive && video.addEventListener('canplay', interactiveVideoMovement, {once: true})
+// }
