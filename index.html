@@ -3,8 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StreetFeed: Connecting socially responsible food providers with surplus food to volunteer riders distributing to the homeless. Bridging the gap between abundance and need, fostering community solidarity." />
+    <meta name="keywords" content="Help, Street, Food, Homeless, Solidarity">
+    <meta name="author" content="Javier Díaz Neira">
+    <meta name="theme-color" content="#FFFFFF">
     <title>StreetFeed  Landing Page</title>
-    <link rel="icon" href="./media/Isotipo_StreetFeed.svg">
+    <link rel="icon" type="image/svg+xml" href="./media/Isotipo_StreetFeed.svg">
+    <link rel="manifest" href="./manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bayon&family=Onest:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Rufina:wght@400;700&display=swap">
@@ -64,9 +69,9 @@
     </div>  
     <div class="navbar-frame">
         <div class="navbar-container">
-            <a class="abr-nav-logotype flex-center cursor-hoverable" href="#" translate="no">STFD</a>
+            <a class="abr-nav-logotype flex-center cursor-hoverable" href="#" translate="no" title="Ir al inicio de la pagina">STFD</a>
             <div class="nav-options-container flex-center">
-                <a class="nav-option-container nav-link-option cursor-hoverable nav-what" href="#what">
+                <a class="nav-option-container nav-link-option cursor-hoverable nav-what" title="Ir a la sección 'WHAT'" href="#what">
                     <div class="option-overflow-window">
                         <div class="nav-option-name-container">
                             <div class="nav-option-name">WHAT</div>
@@ -74,7 +79,7 @@
                         </div>
                     </div>
                 </a>
-                <a class="nav-option-container nav-link-option cursor-hoverable nav-how" href="#how">
+                <a class="nav-option-container nav-link-option cursor-hoverable nav-how" title="Ir a la sección 'HOW'" href="#how">
                     <div class="option-overflow-window">
                         <div class="nav-option-name-container">
                             <div class="nav-option-name">HOW</div>
@@ -82,7 +87,7 @@
                         </div>
                     </div>
                 </a>
-                <a class="nav-option-container nav-link-option cursor-hoverable nav-who" href="#who">
+                <a class="nav-option-container nav-link-option cursor-hoverable nav-who" title="Ir a la sección 'WHO'" href="#who">
                     <div class="option-overflow-window">
                         <div class="nav-option-name-container">
                             <div class="nav-option-name">WHO</div>
@@ -90,7 +95,7 @@
                         </div>
                     </div>
                 </a>
-                <a class="nav-option-container nav-button-option nav-link-to-login cursor-hoverable">
+                <a class="nav-option-container nav-button-option nav-link-to-login cursor-hoverable" title="Acceder al Login" href="">
                     <div class="option-overflow-window">
                         <div class="nav-option-name-container">
                             <div class="nav-option-name">START HELPING!</div>
@@ -99,7 +104,7 @@
                     </div>
                 </a>
             </div>
-            <button class="nav-toggler-btn btn" type="button">
+            <button class="nav-toggler-btn btn" type="button" aria-label="Log In">
                 <div class="nav-toggler-line nav-toggler-line-top simple-line"></div>
                 <div class="nav-toggler-line nav-toggler-line-bottom simple-line"></div>
             </button>
@@ -109,22 +114,22 @@
         <div class="movile-options-container">
             <div class="movile-nav-content-container">
                 <div class="movile-nav-landing-parts-frame">
-                    <a class="movile-nav-landing-part-container cursor-hoverable" href="#what">
+                    <a class="movile-nav-landing-part-container cursor-hoverable" title="Ir a la sección 'WHAT'" href="#what">
                         <div class="movile-nav-langing-part-name">WHAT</div>
                         <div class="movile-nav-bottom-line simple-line"></div>
                     </a>
-                    <a class="movile-nav-landing-part-container cursor-hoverable" href="#how">
+                    <a class="movile-nav-landing-part-container cursor-hoverable" title="Ir a la sección 'HOW'" href="#how">
                         <div class="movile-nav-langing-part-name">HOW</div>
                         <div class="movile-nav-bottom-line simple-line"></div>
                     </a>
-                    <a class="movile-nav-landing-part-container cursor-hoverable" href="#who">
+                    <a class="movile-nav-landing-part-container cursor-hoverable" title="Ir a la sección 'WHO'" href="#who">
                         <div class="movile-nav-langing-part-name">WHO</div>
                         <div class="movile-nav-bottom-line simple-line"></div>
                     </a>
                 </div>
                 <div class="movile-nav-link-to-app-frame">
                     <div class="movile-nav-call-to-action">Do you want to make a difference in someone's life today?</div>
-                    <a class="movile-nav-link-to-app-btn">
+                    <a class="movile-nav-link-to-app-btn" href="" title="Acceder al Login">
                         <div class="movile-nav-option-name-container">
                             <div class="movile-nav-option-name">START HELPING!</div>
                         </div>
@@ -159,7 +164,7 @@
                 C450.7,440,451.8,440.7,452.9,441.5z M141,441.5c87.4-57,112-174,55-261.4c-0.7-1.1-1.5-2.3-2.2-3.4c-87.4,57-112,174-55,261.4
                 C139.5,439.2,140.2,440.3,141,441.5z"/>
         </svg>
-        <a class="scroll-down-container cursor-hoverable" href="#what">
+        <a class="scroll-down-container cursor-hoverable" href="#what" title="Comenzar a ver la pagina web">
             <div class="scroll-down-circle scroll-down-outer-circle"></div>
             <div class="scroll-down-circle scroll-down-inner-circle flex-center">
                 <svg class="scroll-down-arrow" xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px" viewBox="20 7 60 80">
@@ -263,7 +268,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" class="confirm-marker-btn nav-option-container nav-button-option cursor-hoverable" disabled>
+                        <button type="button" class="confirm-marker-btn nav-option-container nav-button-option cursor-hoverable" disabled aria-label="Confirmar la Ubicación de una Persona Necesitada">
                             <div class="option-overflow-window">
                                 <div class="nav-option-name-container">
                                     <div class="nav-option-name">CONFIRM LOCATION</div>
@@ -291,7 +296,7 @@
                     </div>
                     <div class="modal-input-container">
                         <input class="num-homeless-input" type="text" inputmode="numeric" placeholder="Number of people...">
-                        <button type="button" class="place-marker-btn nav-option-container nav-button-option cursor-hoverable" disabled>
+                        <button type="button" class="place-marker-btn nav-option-container nav-button-option cursor-hoverable" disabled aria-label="Guardar la información de cuantas personas hay en esa ubicación">
                             <div class="option-overflow-window">
                                 <div class="nav-option-name-container">
                                     <div class="nav-option-name">PLACE A MARKER</div>
@@ -570,7 +575,7 @@
                 <div class="faq-user-input">
                     <textarea class="chatbot-text-input" type="textarea" placeholder="Message to StreetAI..."></textarea>
                     <div class="chatbot-send-message-container">
-                        <button class="chatbot-send-message message-invalid cursor-hoverable">
+                        <button class="chatbot-send-message message-invalid cursor-hoverable" aria-label="Enviar pregunta al chatbot StreetAI">
                             <i class="chatbot-send-message-icon fa-regular fa-paper-plane"></i>
                         </button>
                     </div>
@@ -593,7 +598,7 @@
                 <div class="who-dev-info who-full-name">JAVIER DÍAZ</div>
                 <div class="who-dev-info who-dev-description">DESIGN & FRONT-END DEVELOPMENT</div>
             </div>
-            <a class="who-img-frame" href="https://www.linkedin.com/in/javier-d%C3%ADaz-neira-120385153/" target="_blank">
+            <a class="who-img-frame" href="https://www.linkedin.com/in/javier-d%C3%ADaz-neira-120385153/" title="Obtener más información sobre el desarrollador en pantalla" target="_blank">
                 <div class="who-img-outer-border"></div>
                 <div class="who-img-container who-img-javi dev-img-shown">
                     <img class="who-img" src="./media/who-javi.jpg" alt="Javier Díaz Dev Photo" draggable="false">

@@ -834,7 +834,8 @@ input, textarea{
 
 .search-box-suggestion-title{
     width: 100%;
-    color: #a8a8a8;
+    /* color: #a8a8a8; */
+    color:#757575;
 }
 
 .search-box-suggestions-container{
@@ -856,7 +857,8 @@ input, textarea{
 .search-box-address, .search-geolocalitation-secondary-text{
     font-family: var(--font-secondary);
     font-size: 0.7em;
-    color:#a8a8a8;
+    /* color:#a8a8a8; */
+    color:#757575;
 }
 
 .mapbox-map-container{
@@ -1682,7 +1684,7 @@ canvas{
 .who-dev-info{
     font-size: clamp(13px, 1.2vw, 50px);
     font-weight: 700;
-    color: rgb(194, 194, 194);
+    color: #757575;
     transition: 0.3s;
     text-transform: capitalize;
 }

@@ -1,0 +1,16 @@
+{
+    "name": "StreetFeed",
+    "short_name": "StreetFeed",
+    "description": "StreetFeed: Connecting socially responsible food providers with surplus food to volunteer riders distributing to the homeless. Bridging the gap between abundance and need, fostering community solidarity.",
+    "icons": [
+      {
+        "src": "./media/Isotipo_StreetFeed.svg",
+        "sizes": "600x600",
+        "type": "image/svg+xml"
+      }
+    ],
+    "start_url": "/index.html",
+    "display": "standalone",
+    "theme_color": "#FFFFFF",
+    "background_color": "#FFFFFF"
+  }
