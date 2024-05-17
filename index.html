@@ -194,7 +194,7 @@
             <div class="interactive-map-content-frame">
                 <div class="map-user-frame">
                     <div class="search-box-input-user-container">
-                        <form onsubmit="return false">
+                        <form class="" onsubmit="return false">
                             <label for="search-box-input-user" class="accesibility-not-visible">Write your Location</label>
                             <input id="search-box-input-user" class="search-box-input-user" type="text" placeholder="Write your location..." aria-label="Find Location by Address">
                             <button type="submit" style="display: none;">Enviar</button>
@@ -230,10 +230,6 @@
                         <div class="search-box-suggestions-frame">
                             <div class="search-box-suggestion-title">SUGGESTIONS</div>
                             <div class="search-box-suggestions-container">
-                                <div class="search-box-suggestion-container cursor-hoverable" data-lat="41.353858016777" data-lng="2.06977688038913">
-                                    <div class="search-box-name">Carrer Del Cinema Bel 24</div>
-                                    <div class="search-box-address">Cornellà de Llobregat, Barcelona, Spain</div>
-                                </div>
                                 <div class="search-box-suggestion-container cursor-hoverable" data-lat="41.329379" data-lng="2.093482">
                                     <div class="search-box-name">Cinema Capri</div>
                                     <div class="search-box-address">El Prat de Llobregat, Spain</div>
@@ -579,16 +575,15 @@
                     <div class="faq-message chatbot-message"><span class="faq-chatbot-text">Hello, I'm glad to answer the questions you have about <span translate="no">StreetFeed</span>!</span><span class="chatbot-waiting-indicator"></span></div>
                 </div>
                 <div class="faq-user-input">
-                    <form onsubmit="return false">
+                    <form class="chatbot-form" onsubmit="return false">
                         <label for="chatbot-text-input" class="accesibility-not-visible">Message to StreetAI</label>
                         <textarea id="chatbot-text-input" class="chatbot-text-input" placeholder="Message to StreetAI..."></textarea>
-                        <button type="submit" style="display: none;">Enviar</button>
+                        <div class="chatbot-send-message-container">
+                            <button type="submit" class="chatbot-send-message message-invalid cursor-hoverable" aria-label="Send a question to our chatbot, StreetAI">
+                                <i class="chatbot-send-message-icon fa-regular fa-paper-plane"></i>
+                            </button>
+                        </div>
                     </form>
-                    <div class="chatbot-send-message-container">
-                        <button class="chatbot-send-message message-invalid cursor-hoverable" aria-label="Send a question to our chatbot, StreetAI">
-                            <i class="chatbot-send-message-icon fa-regular fa-paper-plane"></i>
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -728,12 +723,12 @@
             <div class="call-to-action-text-container flex-center">
                 <div class="call-to-action-text">JOIN THE ADVENTURE</div>
                 <button type="button" class="call-to-action-button nav-option-container nav-button-option nav-link-to-login cursor-hoverable">
-                    <span class="option-overflow-window">
-                        <span class="nav-option-name-container">
+                    <div class="option-overflow-window">
+                        <div class="nav-option-name-container">
                             <span class="nav-option-name">START HELPING!</span>
                             <span class="nav-option-name">START HELPING!</span>
-                        </span>
-                    </span>
+                        </div>
+                    </div>
                 </button>
             </div>
             

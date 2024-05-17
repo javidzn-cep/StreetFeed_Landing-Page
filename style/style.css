@@ -1559,6 +1559,11 @@ canvas{
     animation: chatbotWaiting 1s infinite;
 }
 
+.chatbot-form{
+    display: flex;
+    width: 100%;
+}
+
 .faq-user-input{
     display: flex;
     width: 100%;
