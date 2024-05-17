@@ -140,8 +140,9 @@
     </div>
     <div class="header">
         <div class="header-text-container">
-            <h1 class="header-title title-street" translate="no">STREET</h1>
-            <h1 class="header-title title-feed" translate="no">FEED</h1>
+            <h1 style="display: none;">STREETFEED</h1>
+            <div class="header-title title-street" translate="no">STREET</div>
+            <div class="header-title title-feed" translate="no">FEED</div>
             <div class="header-subtitle">There's always a way to help</div>
             <div class="masked-container flex-center">
                 <div class="header-subtitle masked-subtitle"> Let's Find Yours ! Begin with Us ;)
@@ -171,6 +172,7 @@
                     </g>
                 </svg>
             </div>
+            <div class="accesibility-not-visible">Scroll Down!</div>
         </a>
     </div>
     <div class="marker-map-frame">
@@ -193,7 +195,7 @@
                 <div class="map-user-frame">
                     <div class="search-box-input-user-container">
                         <form onsubmit="return false">
-                            <label for="search-box-input-user" style="display: none;">Write your Location</label>
+                            <label for="search-box-input-user" class="accesibility-not-visible">Write your Location</label>
                             <input id="search-box-input-user" class="search-box-input-user" type="text" placeholder="Write your location..." aria-label="Buscar Ubicación mediante la Direccion">
                             <button type="submit" style="display: none;">Enviar</button>
                         </form>
@@ -298,7 +300,7 @@
                     </div>
                     <div class="modal-input-container">
                         <form onsubmit="return false">
-                            <label for="num-homeless-input" style="display: none;">Number of People</label>
+                            <label for="num-homeless-input" class="accesibility-not-visible">Number of People</label>
                             <input id="num-homeless-input" class="num-homeless-input" type="text" placeholder="Number of people..." aria-label="Introduce la cantidad de personas que hay en esa ubicación">
                             <button type="submit" style="display: none;">Enviar</button>
                         </form>
@@ -578,7 +580,7 @@
                 </div>
                 <div class="faq-user-input">
                     <form onsubmit="return false">
-                        <label for="chatbot-text-input" style="display: none;">Message to StreetAI</label>
+                        <label for="chatbot-text-input" class="accesibility-not-visible">Message to StreetAI</label>
                         <textarea id="chatbot-text-input" class="chatbot-text-input" placeholder="Message to StreetAI..."></textarea>
                         <button type="submit" style="display: none;">Enviar</button>
                     </form>

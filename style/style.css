@@ -92,6 +92,10 @@ input, textarea{
     align-items: center;
 }
 
+.accesibility-not-visible{
+    display: none;
+}
+
 
 /*   ______________________   CURSOR   ______________________   */
 
@@ -877,6 +881,10 @@ input, textarea{
 
 .mapboxgl-control-container{
     display: none !important;
+}
+
+.mapboxgl-ctrl-logo::after{
+    content: 'Logo Mapbox'
 }
 
 
