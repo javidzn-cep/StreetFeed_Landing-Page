@@ -883,11 +883,6 @@ input, textarea{
     display: none !important;
 }
 
-.mapboxgl-ctrl-logo::after{
-    content: 'Logo Mapbox'
-}
-
-
 .confirm-marker-btn, .place-marker-btn{
     width: 100%;
 }
