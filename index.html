@@ -7,7 +7,7 @@
     <meta name="keywords" content="Help, Street, Food, Homeless, Solidarity">
     <meta name="author" content="Javier Díaz Neira">
     <meta name="theme-color" content="#FFFFFF">
-    <title>StreetFeed  Landing Page</title>
+    <title>StreetFeed® | Start Helping The easiest way posible!</title>
     <link rel="icon" type="image/svg+xml" href="./media/Isotipo_StreetFeed.svg">
     <link rel="manifest" href="./manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -140,8 +140,8 @@
     </div>
     <div class="header">
         <div class="header-text-container">
-            <div class="header-title title-street" translate="no">STREET</div>
-            <div class="header-title title-feed" translate="no">FEED</div>
+            <h1 class="header-title title-street" translate="no">STREET</h1>
+            <h1 class="header-title title-feed" translate="no">FEED</h1>
             <div class="header-subtitle">There's always a way to help</div>
             <div class="masked-container flex-center">
                 <div class="header-subtitle masked-subtitle"> Let's Find Yours ! Begin with Us ;)
@@ -192,7 +192,11 @@
             <div class="interactive-map-content-frame">
                 <div class="map-user-frame">
                     <div class="search-box-input-user-container">
-                        <input class="search-box-input-user" type="text" placeholder="Write your location..." aria-label="Buscar Ubicación mediante la Direccion">
+                        <form onsubmit="return false">
+                            <label for="search-box-input-user" style="display: none;">Write your Location</label>
+                            <input id="search-box-input-user" class="search-box-input-user" type="text" placeholder="Write your location..." aria-label="Buscar Ubicación mediante la Direccion">
+                            <button type="submit" style="display: none;">Enviar</button>
+                        </form>
                     </div>
                     <div class="mapbox-map-container">
                         <div id="mapbox-map"></div>
@@ -293,7 +297,11 @@
                         <div class="modal-location-info">Longitude: <span class="modal-location-longitude">2.050251</span></div>
                     </div>
                     <div class="modal-input-container">
-                        <input class="num-homeless-input" type="text" placeholder="Number of people..." aria-label="Introduce la cantidad de personas que hay en esa ubicación">
+                        <form onsubmit="return false">
+                            <label for="num-homeless-input" style="display: none;">Number of People</label>
+                            <input id="num-homeless-input" class="num-homeless-input" type="text" placeholder="Number of people..." aria-label="Introduce la cantidad de personas que hay en esa ubicación">
+                            <button type="submit" style="display: none;">Enviar</button>
+                        </form>
                         <button type="button" class="place-marker-btn nav-option-container nav-button-option cursor-hoverable" disabled aria-label="Guardar la información de cuantas personas hay en esa ubicación">
                             <div class="option-overflow-window">
                                 <div class="nav-option-name-container">
@@ -436,8 +444,7 @@
                         <div id="role-name-mapping-helper" class="role-name">MAPPER</div>
                     </div>
                 </div>
-                <div class="role-description-text">We offer you three essential roles to participate in our mission. <span id="role-text-rider" class="role-text-highlight">As a rider, your task will be to pick up and deliver food packages to those who need them most.</span><span id="role-text-provider" class="role-text-highlight"> If you prefer to contribute from your business or home, you can become a provider, offering surplus food that will be distributed by our riders.</span> Additionally, if you want to help but don't want to register, <span id="role-text-notregistered" class="role-text-highlight">you can assist as a mapping helper, marking homeless individuals on our interactive map, by clicking in the icon below, to facilitate riders' access to these locations.</span> And the best part is that you can play all these roles if you wish!
-                </div>
+                <p class="role-description-text">We offer you three essential roles to participate in our mission. <span id="role-text-rider" class="role-text-highlight">As a rider, your task will be to pick up and deliver food packages to those who need them most.</span><span id="role-text-provider" class="role-text-highlight"> If you prefer to contribute from your business or home, you can become a provider, offering surplus food that will be distributed by our riders.</span> Additionally, if you want to help but don't want to register, <span id="role-text-notregistered" class="role-text-highlight">you can assist as a mapping helper, marking homeless individuals on our interactive map, by clicking in the icon below, to facilitate riders' access to these locations.</span> And the best part is that you can play all these roles if you wish!</p>
             </div>
         </div>
     </div>
@@ -491,7 +498,7 @@
                         </svg>
                     </div>
                     <div class="faq-answer-container flex-center flex-center">
-                        <div class="faq-answer"><span translate="no">StreetFeed</span> is a webApp platform that facilitates the connection between socially responsible food providers with surplus food and volunteer riders willing to distribute that food to homeless individuals on our streets. We aim to bridge the gap between abundance and need, fostering community solidarity.</div>
+                        <p class="faq-answer"><span translate="no">StreetFeed</span> is a webApp platform that facilitates the connection between socially responsible food providers with surplus food and volunteer riders willing to distribute that food to homeless individuals on our streets. We aim to bridge the gap between abundance and need, fostering community solidarity.</div>
                     </div>
                 </div>
                 <div class="faq-question-aswer-container">
@@ -505,7 +512,7 @@
                         </svg>
                     </div>
                     <div class="faq-answer-container flex-center">
-                        <div class="faq-answer"><span translate="no">StreetFeed</span> operates as a digital bridge between surplus food providers and those in need. Socially responsible providers upload information about their surplus food onto our platform, specifying details such as type, quantity, and location. Volunteer riders, after completing a simple registration and verification process, can browse available deliveries and choose to undertake them. They collect the food from the providers and distribute it directly to individuals experiencing homelessness or food insecurity in our communities.</div>
+                        <p class="faq-answer"><span translate="no">StreetFeed</span> operates as a digital bridge between surplus food providers and those in need. Socially responsible providers upload information about their surplus food onto our platform, specifying details such as type, quantity, and location. Volunteer riders, after completing a simple registration and verification process, can browse available deliveries and choose to undertake them. They collect the food from the providers and distribute it directly to individuals experiencing homelessness or food insecurity in our communities.</div>
                     </div>
                 </div>
                 <div class="faq-question-aswer-container">
@@ -519,7 +526,7 @@
                         </svg>
                     </div>
                     <div class="faq-answer-container flex-center">
-                        <div class="faq-answer">Becoming a volunteer rider with <span translate="no">StreetFeed</span> is a straightforward process. Simply sign up on our platform, provide the necessary information, and undergo a brief verification process. Once approved, you'll gain access to available deliveries in your area, enabling you to make a direct impact in your community by distributing food to those in need.</div>
+                        <p class="faq-answer">Becoming a volunteer rider with <span translate="no">StreetFeed</span> is a straightforward process. Simply sign up on our platform, provide the necessary information, and undergo a brief verification process. Once approved, you'll gain access to available deliveries in your area, enabling you to make a direct impact in your community by distributing food to those in need.</div>
                     </div>
                 </div>
                 <div class="faq-question-aswer-container">
@@ -533,44 +540,48 @@
                             </svg>
                     </div>
                     <div class="faq-answer-container flex-center">
-                        <div class="faq-answer">StreetFeed welcomes any business or individual with surplus food to become a provider on our platform. Whether you're a restaurant, bakery, grocery store, or an individual with excess groceries from an event or gathering, you can join us in reducing food waste and feeding those in need.</div>
+                        <p class="faq-answer">StreetFeed welcomes any business or individual with surplus food to become a provider on our platform. Whether you're a restaurant, bakery, grocery store, or an individual with excess groceries from an event or gathering, you can join us in reducing food waste and feeding those in need.</p>
                     </div>
                 </div>
                 <div class="faq-question-aswer-container">
                     <div class="faq-question-container cursor-hoverable">
                         <div class="faq-number-question-container">
                             <div class="faq-number">005</div>
-                            <div class="faq-question">Is there a cost to participate as a provider or rider on <span translate="no">StreetFeed</span>?</div>
+                            <div class="faq-question">Is there a cost to participate as a provider or rider on <span translate="no">StreetFeed</span>?</p>
                         </div>
                         <svg class="faq-caret" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 80">
                             <path d="M 0 0 L 100 0 L 50 80 Z"/>
                         </svg>
                     </div>
                     <div class="faq-answer-container flex-center">
-                        <div class="faq-answer">No, there is no cost associated with participating as a provider or rider on <span translate="no">StreetFeed</span>. Our platform operates on the principles of solidarity and community support, and all services are provided free of charge.</div>
+                        <p class="faq-answer">No, there is no cost associated with participating as a provider or rider on <span translate="no">StreetFeed</span>. Our platform operates on the principles of solidarity and community support, and all services are provided free of charge.</p>
                     </div>
                 </div>
                 <div class="faq-question-aswer-container">
                     <div class="faq-question-container cursor-hoverable">
                         <div class="faq-number-question-container">
                             <div class="faq-number">006</div>
-                            <div class="faq-question">Does <span translate="no">StreetFeed</span> have plans for expansion or scaling its operations in the future?</div>
+                            <div class="faq-question">Does <span translate="no">StreetFeed</span> have plans for expansion or scaling its operations in the future?</p>
                         </div>
                         <svg class="faq-caret" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 80">
                             <path d="M 0 0 L 100 0 L 50 80 Z"/>
                         </svg>
                     </div>
                     <div class="faq-answer-container flex-center">
-                        <div class="faq-answer">Yes, <span translate="no">StreetFeed</span> is continuously exploring opportunities for expansion and scaling to reach more communities in need. We're committed to growing our impact and effectiveness through strategic partnerships, technology enhancements, and community-driven initiatives. Stay tuned for updates on our growth and progress.</div>
+                        <p class="faq-answer">Yes, <span translate="no">StreetFeed</span> is continuously exploring opportunities for expansion and scaling to reach more communities in need. We're committed to growing our impact and effectiveness through strategic partnerships, technology enhancements, and community-driven initiatives. Stay tuned for updates on our growth and progress.</p>
                     </div>
                 </div>
            </div>
            <div class="faq-chatbot-frame">
                <div class="faq-chatbot-messages-frame">
-                    <div class="faq-message chatbot-message"><span class="faq-chatbot-text">Hello, I'm glad to answer the questions you have about <span translate="no">StreetFeed</span>!</span><span class="chatbot-waiting-indicator"></span></div>
+                    <p class="faq-message chatbot-message"><span class="faq-chatbot-text">Hello, I'm glad to answer the questions you have about <span translate="no">StreetFeed</span>!</span><span class="chatbot-waiting-indicator"></span></p>
                 </div>
                 <div class="faq-user-input">
-                    <textarea class="chatbot-text-input" placeholder="Message to StreetAI..."></textarea>
+                    <form onsubmit="return false">
+                        <label for="chatbot-text-input" style="display: none;">Message to StreetAI</label>
+                        <textarea id="chatbot-text-input" class="chatbot-text-input" placeholder="Message to StreetAI..."></textarea>
+                        <button type="submit" style="display: none;">Enviar</button>
+                    </form>
                     <div class="chatbot-send-message-container">
                         <button class="chatbot-send-message message-invalid cursor-hoverable" aria-label="Enviar pregunta al chatbot StreetAI">
                             <i class="chatbot-send-message-icon fa-regular fa-paper-plane"></i>
